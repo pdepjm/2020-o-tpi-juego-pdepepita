@@ -1,8 +1,37 @@
 import wollok.game.*
-import pepita.*
+import nave.*
+import cohete.*
 
 program game {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	game.title("PdePepita")
+	game.addVisual(nave)
+	/*
+	cellSize es el tamaño de cada posicion en la pantalla, cuanto mas chico mas fluido va a ser,
+	pero como es bastante ineficiente consume mucho mas recursos con grillas grandes
+	*/
+	game.cellSize(5)
+	//tamaño en celdas
+	game.width(100)
+	game.height(100)
+	
+	//Este bloque se repetira cada "1 milisegundo"
+	var mov = {
+		nave.mover()
+		nave.cohetes().forEach{cohete=> cohete.mover()}
+	}
+	
+	game.onTick(1, "mover ", mov)
+	//hago que la nave empiece a moverse en alguna direccion cuando apreto
+	keyboard.w().onPressDo {nave.direccion(4)}
+	keyboard.a().onPressDo {nave.direccion(3)}
+	keyboard.s().onPressDo {nave.direccion(2)}
+	keyboard.d().onPressDo {nave.direccion(1)}
+	//o que pare si apreto la C
+	keyboard.c().onPressDo {nave.direccion(10)}
+	//disparo cohetes con espacio
+	keyboard.space().onPressDo {nave.dispararCohete()}
+	//cierro el juego con P, buscar escape?
+	keyboard.p().onPressDo {game.stop()}
+	
 	game.start()
 }
