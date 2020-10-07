@@ -3,6 +3,8 @@ import cohete.*
 import miposicion.*
 import utils.*
 import movil.*
+import covid.*
+import cartel.*
 
 object nave inherits Movil{
 
@@ -15,6 +17,9 @@ object nave inherits Movil{
 	/*Este metodo se ejecuta todo el tiempo para mover a la nave, en el caso de que la direccion sea 10 se frena en el lugar (default) 
 	--->falta validar bordes
 	* */
+	//estado  1 "victoria", -1 "derrota", 0 "en juego"
+	var estado = 0
+	
 	override method init()
 	{
 		self.image("nave4.png")
@@ -28,12 +33,28 @@ object nave inherits Movil{
 	{
 		self.image("nave" + self.direccion().toString() + ".png")
 	}
-	/*Se activa al apretar espacio, crea un cohete, lo añade a la lista de cohetes y lo muestra */
+	method gano() = estado == 1
+	method perdio() = estado == -1
+	
+	method estado(est) { 
+		estado = est
+		
+		game.removeVisual(self)
+		game.removeVisual(covid)
+		if(estado == -1)
+			cartel.image("derrota.png")
+		else if (estado == 1)
+			cartel.image("victoria.png")
+		game.addVisual(cartel)
+	}
+	
+	/*
+	/*Se activa al apretar espacio, crea un cohete, lo añade a la lista de cohetes y lo muestra 
 	method dispararCohete()
 	{
-		/*La declaracion/inicializacion rara es porque a Cohete le tengo que pasar una posicion, 
-		y creo una con MiPosicion, que le tengo que mandar x e y
-		*/
+		//La declaracion/inicializacion rara es porque a Cohete le tengo que pasar una posicion, 
+		//y creo una con MiPosicion, que le tengo que mandar x e y
+		
 		const cohete = new Cohete(position = new MiPosicion(x = position.x(), y = position.y()) )
 		
 		//Aca va orientacion y no direccion porque en el caso de que dispares quieto, el cohete tendria direccion 10 (no se moveria)
@@ -45,7 +66,7 @@ object nave inherits Movil{
 	method eliminarCohete(cohete)
 	{
 		cohetes.remove(cohete)
-	}
+	} */
 	
 }
 

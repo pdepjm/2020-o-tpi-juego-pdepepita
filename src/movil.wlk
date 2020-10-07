@@ -1,4 +1,5 @@
 import wollok.game.*
+import utils.*
 
 class Movil{
 	var property position 
@@ -39,7 +40,7 @@ class Movil{
 				}
 			}
 			else if(direccion == 4){
-				if(position.y() < game.height() - velocidad)
+				if(position.y() < game.height() - utils.getPixel(40) - velocidad)
 					position.up(velocidad)
 				else{
 					position.down(velocidad)

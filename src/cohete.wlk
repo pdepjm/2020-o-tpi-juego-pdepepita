@@ -42,7 +42,7 @@ class Cohete {
 	method destroy()
 	{
 		game.removeVisual(self)
-		nave.eliminarCohete(self)
+		//nave.eliminarCohete(self)
 	}
 	//Util para modificar la direccion una vez creado el cohete
 	method cambiarDir(dir)

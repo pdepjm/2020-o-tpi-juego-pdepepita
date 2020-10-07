@@ -21,9 +21,12 @@ object covidBar
 			//mostrar mensaje "CUIDADO CON EL COVID"
 			if(valor < 100)
 				valor += ((100-distancia)*0.05)
-			else
-				game.removeVisual(nave)
+			else{
+				
+				nave.estado(-1)	
+			}
 		}
+		
 		//conversion para mover el rectangulo rojo dependiendo del valor [0-100]
 		//valor deberia ser 0-100
 		//var x = ((valor * 1.96) - 194).truncate(0)

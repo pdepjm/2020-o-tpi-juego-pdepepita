@@ -10,7 +10,7 @@ import covid.*
 
 program game {
 	game.title("PdePepita")
-	
+	game.boardGround("background.png")
 	/*
 	cellSize es el tamaño de cada posicion en la pantalla, cuanto mas chico mas fluido va a ser,
 	pero como es bastante ineficiente consume mucho mas recursos con grillas grandes
@@ -34,27 +34,40 @@ program game {
 	covidBar.mostrar()
 	
 	// ver display.wlk, este es el cartelito numerico (en lo posible, mejorar implementacion)
-	display.position(new MiPosicion(x = game.width() /2, y = game.height() - utils.getPixel(24)))
 	
+	display.position(new MiPosicion(x = game.width() - utils.getPixel(100), y = game.height() - utils.getPixel(30)))
+	display.mostrarNum(30)
 	const movPj = {
-		nave.mover()
-		covid.mover()
+		if(!nave.gano() && !nave.perdio())
+		{ 
+			nave.mover()
+			covid.mover()
+			
+		}
 	}
 	
 	const timer = {
-		/*
 		var val = display.valor()
-		if(val > 0)
+		if(val > 0){
 			val -=1
-		
-		display.mostrarNum(val)
-		*/
+			display.mostrarNum(val)
+		}
+		else
+		{
+			nave.estado(1)
+		}
+	}
+	const actualizarBarra = {
+		if(!nave.gano() && !nave.perdio())
+		{
+			covidBar.actualizar(covid.obtenerDistancia(nave))
+		}
 	}
 	
 	game.onTick(8, "mover pj", movPj)
 	game.onTick(1000, "timer", timer)
-	game.onTick(50, "dist display", {display.mostrarNum(covid.obtenerDistancia(nave))})
-	game.onTick(50, "dist covidBar", {covidBar.actualizar(covid.obtenerDistancia(nave))})
+	//game.onTick(50, "dist display", {display.mostrarNum(covid.obtenerDistancia(nave))})
+	game.onTick(50, "covidBar", actualizarBarra)
 	
 	utils.configTeclas()
 	
