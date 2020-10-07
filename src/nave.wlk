@@ -1,42 +1,33 @@
 import wollok.game.*
 import cohete.*
 import miposicion.*
+import utils.*
+import movil.*
 
-object nave {
+object nave inherits Movil{
 
-	var property direccion = 10 //a donde se esta moviendo
-	var property orientacion = 4//a donde apunta, no necesariamente a donde se esta moviendo
-	var property position = new MiPosicion(x = game.width()/2, y = game.height()/2) //Este objeto nos permite saber nuestra posicion, ver miposicion.wlk
-	var imagenNave = imgArriba //aca se guardan los objetos que estan al final, con las distintas imagenes
+	//self.direccion()//a donde se esta moviendo
+	//var property orientacion = 4//a donde apunta, no necesariamente a donde se esta moviendo
+	//var property position = new MiPosicion(x = game.width()/2, y = game.height()/2) //Este objeto nos permite saber nuestra posicion, ver miposicion.wlk
 	var property cohetes = []
-	
+	//var property image = "nave4.png"
+	//var property velocidad = 3
 	/*Este metodo se ejecuta todo el tiempo para mover a la nave, en el caso de que la direccion sea 10 se frena en el lugar (default) 
 	--->falta validar bordes
 	* */
-	method mover()
+	override method init()
 	{
-		if(direccion >=1 && direccion <=4)
-		{
-			orientacion = direccion
-			if(direccion == 1){
-				position.der(1)
-				imagenNave = imgDer
-				
-			}
-			else if(direccion == 2){
-				position.abajo(1)
-				imagenNave = imgAbajo
-			}
-			else if(direccion == 3){
-				position.izq(1)
-				imagenNave = imgIzq
-			}
-			else if(direccion == 4){
-				position.arriba(1)
-				imagenNave = imgArriba
-			}
-		}
-	}	
+		self.image("nave4.png")
+		self.position(new MiPosicion(x = game.width()/2, y = game.height()/2))
+		self.direccion(0)
+		self.orientacion(4)
+		self.velocidad(3)
+		
+	}
+	override method actualizarImagen(dir)
+	{
+		self.image("nave" + self.direccion().toString() + ".png")
+	}
 	/*Se activa al apretar espacio, crea un cohete, lo añade a la lista de cohetes y lo muestra */
 	method dispararCohete()
 	{
@@ -46,7 +37,7 @@ object nave {
 		const cohete = new Cohete(position = new MiPosicion(x = position.x(), y = position.y()) )
 		
 		//Aca va orientacion y no direccion porque en el caso de que dispares quieto, el cohete tendria direccion 10 (no se moveria)
-		cohete.cambiarDir(orientacion)  
+		cohete.cambiarDir(self.orientacion())  
 		
 		cohetes.add(cohete)
 		game.addVisual(cohete)
@@ -56,23 +47,5 @@ object nave {
 		cohetes.remove(cohete)
 	}
 	
-	method image() = imagenNave.img()
-
 }
 
-object imgArriba
-{
-	method img() = "naveU.png"
-}
-object imgAbajo
-{
-	method img() = "naveD.png"
-}
-object imgIzq
-{
-	method img() = "naveL.png"
-}
-object imgDer
-{
-	method img() = "naveR.png"
-}

@@ -2,7 +2,10 @@ import wollok.game.*
 import miposicion.*
 import nave.*
 
-/*Esto es una clase, porque voy a tener muchos cohetes con estas caracteristicas, en una lista (ver nave.wlk) */
+/*Esto es una clase, porque voy a tener muchos cohetes con estas caracteristicas, en una lista (ver nave.wlk) 
+ * realizar el refactor para que herede de "movil" ? (en caso de que lo usemos para algo)
+ */
+
 class Cohete {
 	var property position
 	
@@ -16,23 +19,23 @@ class Cohete {
 	{
 		if(direccion == 1){
 			if(position.x() < game.width())
-				position.der(1)
+				position.right(1)
 			else
 				self.destroy()
 		}
 		else if(direccion == 2)
 			if(position.y() > 0)
-				position.abajo(1)
+				position.down(1)
 			else
 				self.destroy()
 		else if(direccion == 3)
 			if(position.x() > 0)
-				position.izq(1)
+				position.left(1)
 			else
 				self.destroy()
 		else if(direccion == 4)
 			if(position.y() < game.height())
-				position.arriba(1)
+				position.up(1)
 			else
 				self.destroy()
 	}

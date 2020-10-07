@@ -1,37 +1,62 @@
 import wollok.game.*
 import nave.*
 import cohete.*
+import jugador.*
+import miposicion.*
+import utils.*
+import display.*
+import bar.*
+import covid.*
 
 program game {
 	game.title("PdePepita")
-	game.addVisual(nave)
+	
 	/*
 	cellSize es el tamaño de cada posicion en la pantalla, cuanto mas chico mas fluido va a ser,
 	pero como es bastante ineficiente consume mucho mas recursos con grillas grandes
 	*/
-	game.cellSize(5)
+	game.cellSize(utils.cellSize())
 	//tamaño en celdas
-	game.width(100)
-	game.height(100)
+	game.width(400) 
+	game.height(300)
 	
-	//Este bloque se repetira cada "1 milisegundo"
-	var mov = {
+	// Metodos que inicializan las variables de los objetos nave y covid
+	// (necesario porque ambos heredan de la clase abstracta Movil, 
+	// que tiene el metodo Mover() implementado, y de manera abstracta
+	// los metodos actualizarImagen() e init()
+	// con esto evitamos repetir el movimiento de los jugadores
+	nave.init()
+	covid.init()
+	game.addVisual(nave)
+	game.addVisual(covid)
+	
+	// ver bar.wlk, esta es la barra de covid por proximidad
+	covidBar.mostrar()
+	
+	// ver display.wlk, este es el cartelito numerico (en lo posible, mejorar implementacion)
+	display.position(new MiPosicion(x = game.width() /2, y = game.height() - utils.getPixel(24)))
+	
+	const movPj = {
 		nave.mover()
-		nave.cohetes().forEach{cohete=> cohete.mover()}
+		covid.mover()
 	}
 	
-	game.onTick(1, "mover ", mov)
-	//hago que la nave empiece a moverse en alguna direccion cuando apreto
-	keyboard.w().onPressDo {nave.direccion(4)}
-	keyboard.a().onPressDo {nave.direccion(3)}
-	keyboard.s().onPressDo {nave.direccion(2)}
-	keyboard.d().onPressDo {nave.direccion(1)}
-	//o que pare si apreto la C
-	keyboard.c().onPressDo {nave.direccion(10)}
-	//disparo cohetes con espacio
-	keyboard.space().onPressDo {nave.dispararCohete()}
-	//cierro el juego con P, buscar escape?
-	keyboard.p().onPressDo {game.stop()}
+	const timer = {
+		/*
+		var val = display.valor()
+		if(val > 0)
+			val -=1
+		
+		display.mostrarNum(val)
+		*/
+	}
+	
+	game.onTick(8, "mover pj", movPj)
+	game.onTick(1000, "timer", timer)
+	game.onTick(50, "dist display", {display.mostrarNum(covid.obtenerDistancia(nave))})
+	game.onTick(50, "dist covidBar", {covidBar.actualizar(covid.obtenerDistancia(nave))})
+	
+	utils.configTeclas()
 	
 	game.start()
 }
