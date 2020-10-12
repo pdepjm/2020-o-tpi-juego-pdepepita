@@ -7,6 +7,8 @@ import utils.*
 import display.*
 import bar.*
 import covid.*
+import barrera.*
+import alerta.*
 
 program game {
 	game.title("PdePepita")
@@ -17,8 +19,8 @@ program game {
 	*/
 	game.cellSize(utils.cellSize())
 	//tamaño en celdas
-	game.width(400) 
-	game.height(300)
+	game.width(350) 
+	game.height(350)
 	
 	// Metodos que inicializan las variables de los objetos nave y covid
 	// (necesario porque ambos heredan de la clase abstracta Movil, 
@@ -29,7 +31,8 @@ program game {
 	covid.init()
 	game.addVisual(nave)
 	game.addVisual(covid)
-	
+	game.addVisual(barrera)
+	game.addVisual(alerta)
 	// ver bar.wlk, esta es la barra de covid por proximidad
 	covidBar.mostrar()
 	
@@ -47,14 +50,17 @@ program game {
 	}
 	
 	const timer = {
-		var val = display.valor()
-		if(val > 0){
-			val -=1
-			display.mostrarNum(val)
-		}
-		else
+		if(!nave.gano() && !nave.perdio())
 		{
-			nave.estado(1)
+			var val = display.valor()
+			if(val > 0){
+				val -=1
+				display.mostrarNum(val)
+			}
+			else
+			{
+				nave.estado(1)
+			}
 		}
 	}
 	const actualizarBarra = {
@@ -69,6 +75,7 @@ program game {
 	//game.onTick(50, "dist display", {display.mostrarNum(covid.obtenerDistancia(nave))})
 	game.onTick(50, "covidBar", actualizarBarra)
 	
+	game.onTick(50, "alerta", {alerta.actualizar()})
 	utils.configTeclas()
 	
 	game.start()

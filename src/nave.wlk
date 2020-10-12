@@ -22,16 +22,18 @@ object nave inherits Movil{
 	
 	override method init()
 	{
-		self.image("nave4.png")
-		self.position(new MiPosicion(x = game.width()/2, y = game.height()/2))
-		self.direccion(0)
-		self.orientacion(4)
+		self.image("nave_arriba.png")
+		self.anchoImg(utils.getPixel(40))
+		self.alturaImg(utils.getPixel(40))
+		
+		self.position(new MiPosicion(x = game.width() - self.anchoImg(), y = 0))
+		self.direccion(quieto)
 		self.velocidad(3)
 		
 	}
-	override method actualizarImagen(dir)
+	override method actualizarImagen()
 	{
-		self.image("nave" + self.direccion().toString() + ".png")
+		self.image("nave_" + self.direccion().toString() + ".png")
 	}
 	method gano() = estado == 1
 	method perdio() = estado == -1
@@ -69,4 +71,3 @@ object nave inherits Movil{
 	} */
 	
 }
-
