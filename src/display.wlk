@@ -2,7 +2,7 @@
 import wollok.game.*
 import miposicion.*
 import utils.*
-import nave.*
+import player.*
 
 class Cifra{
 	var property position

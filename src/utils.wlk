@@ -1,5 +1,5 @@
 import wollok.game.*
-import nave.*
+import player.*
 import covid.*
 import barrera.*
 import movil.*
@@ -21,11 +21,11 @@ object utils {
 	{
 		//keyboard.w().onPressDo {jugador.saltar()}
 		//keyboard.s().onPressDo {jugador.deslizarse()}
-		keyboard.w().onPressDo {nave.direccion(arriba)}
-		keyboard.s().onPressDo {nave.direccion(abajo)}
-		keyboard.a().onPressDo {nave.direccion(izquierda)}
-		keyboard.d().onPressDo {nave.direccion(derecha)}
-		keyboard.c().onPressDo {nave.direccion(quieto)}
+		keyboard.w().onPressDo {player.direccion(arriba)}
+		keyboard.s().onPressDo {player.direccion(abajo)}
+		keyboard.a().onPressDo {player.direccion(izquierda)}
+		keyboard.d().onPressDo {player.direccion(derecha)}
+		keyboard.c().onPressDo {player.direccion(quieto)}
 		
 		keyboard.up().onPressDo {covid.direccion(arriba)}
 		keyboard.down().onPressDo {covid.direccion(abajo)}

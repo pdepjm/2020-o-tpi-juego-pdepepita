@@ -1,39 +1,69 @@
 import miposicion.*
 import wollok.game.*
-import nave.*
+
 object alerta {
 	var property position = new MiPosicion(x = 0, y = 0)
-	var property image = "redBack0.png"
+	var property image
 	
-	var property alertando = false
-	var estado = 0
-	var dir = 0
+	var alertando = false
+	
+	var property aumentando = false
+	var property disminuyendo = false
+	const valorMaximo = 30
+	const valorMinimo = 0
+	
+	method iniciarAlerta()
+	{
+		if(!alertando)
+		{
+			alertando = true
+			aumentando = true
+		}
+	}
+	method finalizarAlerta()
+	{
+		alertando = false
+	}
 	method actualizar()
 	{
 		if(alertando){
-			if(dir == 0)
-			{
-				if(estado < 3)
-					estado++
-				else
-					dir = 1
-			}
+			if(aumentando)
+				opacidadAlerta.aumentar(valorMaximo)
 			else
-			{
-				if(estado > 0)
-					estado--
-				else
-					dir = 0
-			}
+				opacidadAlerta.disminuir(valorMinimo)
 			
-				
-			image = "redBack" + estado.toString() + ".png"
-			//game.say(nave, estado.toString())		
+			image = opacidadAlerta.img()
+
 		}
-		else{
-			estado = 0
-			dir = 0
-			image = "redBack0.png"
+		else
+			image = "alerta0.png"
+	}
+	
+	
+}
+object opacidadAlerta {
+	var opacidad = 0
+	
+	method img() = "alerta" + opacidad.toString() + ".png"
+	
+	method aumentar(maximo) { 
+		if (opacidad < maximo)
+			opacidad+=10
+		else
+		{
+			alerta.aumentando(false)
+			alerta.disminuyendo(true)
 		}
+	}
+	method disminuir(minimo)
+	{
+		if(opacidad > minimo)
+			opacidad-=10
+		else
+		{
+			alerta.aumentando(true)
+			alerta.disminuyendo(false)
+		}
+			
 	}
 }

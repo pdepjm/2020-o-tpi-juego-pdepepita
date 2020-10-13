@@ -4,8 +4,10 @@ import utils.*
 import movil.*
 import covid.*
 import cartel.*
+import display.*
+import barrera.*
 
-object nave inherits Movil{
+object player inherits Movil{
 
 	//estado  1 "victoria", -1 "derrota", 0 "en juego"
 	var estado = enJuego
@@ -28,12 +30,30 @@ object nave inherits Movil{
 
 	method enJuego() = estado == enJuego
 	
+	method avanzarTimer()
+	{
+		var val = display.valor()
+		if(val > 0){
+			val -=1
+			display.mostrarNum(val)
+		}
+		else
+		{
+			self.finalizarJuego(ganador)
+		}
+	
+	}
 	method finalizarJuego(est)
 	{
 		estado = est
 		game.removeVisual(self)
 		game.removeVisual(covid)
+		game.removeVisual(barrera)
 		estado.mostrarCartel()
+		game.removeTickEvent("timer")
+		game.removeTickEvent("mover pjs")
+		game.removeTickEvent("covidBar")
+		
 	}
 }
 

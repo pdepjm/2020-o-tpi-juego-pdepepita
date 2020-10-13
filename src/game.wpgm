@@ -1,5 +1,5 @@
 import wollok.game.*
-import nave.*
+import player.*
 import miposicion.*
 import utils.*
 import display.*
@@ -25,15 +25,15 @@ program game {
 	// que tiene el metodo Mover() implementado, y de manera abstracta
 	// los metodos actualizarImagen() e init()
 	// con esto evitamos repetir el movimiento de los jugadores
-	nave.init()
+	player.init()
 	covid.init()
-	game.addVisual(nave)
+	game.addVisual(player)
 	game.addVisual(covid)
 	game.addVisual(barrera)
 	game.addVisual(alerta)
 	
 	const jugadores = []
-	jugadores.add(nave)
+	jugadores.add(player)
 	jugadores.add(covid)
 	
 	// ver bar.wlk, esta es la barra de covid por proximidad
@@ -43,44 +43,12 @@ program game {
 	
 	display.position(new MiPosicion(x = game.width() - utils.getPixel(100), y = game.height() - utils.getPixel(30)))
 	display.mostrarNum(30)
-	/*
-	const movPj = {
-		if(!nave.gano() && !nave.perdio())
-		{ 
-			nave.mover()
-			covid.mover()
-			
-		}
-	}
-	 */
-	const timer = {
-		//if(!nave.gano() && !nave.perdio())
-		if(nave.enJuego())
-		{
-			var val = display.valor()
-			if(val > 0){
-				val -=1
-				display.mostrarNum(val)
-			}
-			else
-			{
-				nave.finalizarJuego(ganador)
-			}
-		}
-	}
-	const actualizarBarra = {
-		if(nave.enJuego())
-		{
-			covidBar.actualizar(covid.obtenerDistancia(nave))
-		}
-	}
 	
-	game.onTick(8, "mover pj", {jugadores.forEach{jugador => jugador.mover()}})
-	game.onTick(1000, "timer", timer)
-	//game.onTick(50, "dist display", {display.mostrarNum(covid.obtenerDistancia(nave))})
-	game.onTick(50, "covidBar", actualizarBarra)
-	
+	game.onTick(8, "mover pjs", { jugadores.forEach{jugador => jugador.mover()}})
+	game.onTick(1000, "timer", { player.avanzarTimer()})
+	game.onTick(50, "covidBar", { covidBar.actualizar(covid.obtenerDistancia(player))})
 	game.onTick(50, "alerta", {alerta.actualizar()})
+	
 	utils.configTeclas()
 	
 	game.start()
