@@ -24,7 +24,7 @@ object covidBar
 				valor += ((100-distancia)*0.05)
 			else{
 				
-				nave.estado(-1)	
+				nave.finalizarJuego(perdedor)
 			}
 		}
 		else

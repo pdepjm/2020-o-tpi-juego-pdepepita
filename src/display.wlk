@@ -1,6 +1,5 @@
 
 import wollok.game.*
-import jugador.*
 import miposicion.*
 import utils.*
 import nave.*
