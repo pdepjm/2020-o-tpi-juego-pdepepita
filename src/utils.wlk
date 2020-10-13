@@ -37,6 +37,7 @@ object utils {
 		
 		keyboard.y().onPressDo {barrera.cambiar()}
 	}
+	/* Convierto un string en una lista con sus caracteres*/
 	method stringToCharList(string)
 	{
 		const charList = []
@@ -45,11 +46,10 @@ object utils {
 		return charList
 	}	
 	/*
-	method validarBordes(position, speed) = 
-		position.x() < game.width() - (speed + 2)
-		&& position.x() > (speed + 2)
-		&& position.y() < game.height() - (speed + 2)
-		&& position.y() > (speed + 2) 			
+	colision con barreras
+	/*
+	method validarBarreras() 
+			
  	*/		 
 	
 	
