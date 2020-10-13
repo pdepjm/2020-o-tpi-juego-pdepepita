@@ -1,0 +1,135 @@
+import player.*
+import movil.*
+import wollok.game.*
+import utils.*
+import covid.*
+import display.*
+import miposicion.*
+import barrera.*
+import bar.*
+
+describe "tests de movil"
+{
+	fixture
+	{
+		game.cellSize(utils.cellSize())
+		//tamaño en celdas
+		game.width(utils.getPixel(700)) 
+		game.height(utils.getPixel(700))
+		player.init() 
+		game.addVisual(player)
+	}
+	test "borde derecho"
+	{
+		player.direccion(derecha)
+		player.mover()
+		
+		assert.equals(game.width()-player.anchoImg(), player.position().x())
+	}
+	test "borde izquierdo"
+	{
+		player.direccion(izquierda)
+		player.position().x(3)
+		player.mover()
+		
+		assert.equals(0, player.position().x())
+	}
+	
+	test "borde inferior"
+	{
+		player.direccion(abajo)
+		player.mover()
+		
+		assert.equals(0, player.position().y())
+	}
+	test "borde superior"
+	{
+		player.direccion(arriba)
+		player.position().y(game.height()-player.alturaImg())
+		player.mover()
+		
+		assert.equals(game.height()-player.alturaImg(), player.position().x())
+	}
+}
+
+describe "tests de player"
+{
+	fixture
+	{
+		game.cellSize(utils.cellSize())
+		//tamaño en celdas
+		game.width(utils.getPixel(700)) 
+		game.height(utils.getPixel(700))
+		player.init() 
+		covid.init()
+		game.addVisual(player)
+		game.addVisual(covid)
+		game.addVisual(barrera)
+		
+		//solo para que los test corran
+		game.onTick(5000, "mover pjs", {})
+		game.onTick(5000, "timer", { })
+		game.onTick(5000, "covidBar", {})
+	
+		display.position(new MiPosicion(x = game.width() - utils.getPixel(120), y = game.height() - utils.getPixel(30)))
+		display.mostrarNum(2) //Arrancar timer en 2s
+		
+	}
+	test "puede ganar si se termina el tiempo"
+	{
+		// queda 2 seg
+		player.avanzarTimer() 
+		// queda 1 seg
+		player.avanzarTimer() 
+		// queda 0 seg
+		player.avanzarTimer() 
+		assert.equals(ganador, player.estado())
+	}
+}
+
+describe "test de covid" //#miedo
+{
+	fixture 
+	{
+		game.cellSize(utils.cellSize())
+		//tamaño en celdas
+		game.width(utils.getPixel(700)) 
+		game.height(utils.getPixel(700))
+		player.init() 
+		covid.init()
+		game.addVisual(player)
+		game.addVisual(covid)
+		game.addVisual(barrera)
+
+		//solo para que los test corran
+		game.onTick(5000, "mover pjs", {})
+		game.onTick(5000, "timer", { })
+		game.onTick(5000, "covidBar", {})
+		
+		
+	}
+	test "covid no es contagioso a mas de 100u de distancia"
+	{
+		covidBar.actualizar(covid.obtenerDistancia(player))
+		assert.equals(0, covidBar.valor())
+	}
+	test "covid es contagioso a menos de 100u de distancia"
+	{
+		player.position().x(covid.position().x()+20)
+		player.position().y(covid.position().y())
+		
+		covidBar.actualizar(covid.obtenerDistancia(player))
+		assert.equals(4, covidBar.valor())
+	}
+	test "el jugador pierde si se contagia covid"
+	{
+		player.position().x(covid.position().x()+20)
+		player.position().y(covid.position().y())
+		covidBar.valor(97)
+		covidBar.actualizar(covid.obtenerDistancia(player))
+		assert.equals(100, covidBar.valor())
+		assert.equals(perdedor, player.estado())
+	}
+	
+	
+}

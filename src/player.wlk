@@ -10,7 +10,7 @@ import barrera.*
 object player inherits Movil{
 
 	//estado  1 "victoria", -1 "derrota", 0 "en juego"
-	var estado = enJuego
+	var property estado = enJuego
 	
 	override method init()
 	{
@@ -20,7 +20,7 @@ object player inherits Movil{
 		
 		self.position(new MiPosicion(x = game.width() - self.anchoImg(), y = 0))
 		self.direccion(quieto)
-		self.velocidad(3)
+		self.velocidad(10)
 		
 	}
 	override method actualizarImagen()
@@ -40,7 +40,7 @@ object player inherits Movil{
 		}
 		else
 			self.finalizarJuego(ganador)
-	
+	 	
 	}
 	method finalizarJuego(est)
 	{

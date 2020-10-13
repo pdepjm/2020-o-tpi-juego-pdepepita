@@ -13,7 +13,7 @@ class Movil{
 	
 	method actualizarImagen()
 	//direccion es obj arriba|abajo|izquierda|derecha
-	method mover(){ direccion.mover(self)}
+	method mover(){ direccion.mover(self) }
 	
 	method obtenerDistancia(pj) = self.position().distance(pj.position())
 
@@ -25,10 +25,10 @@ object derecha
 	{
 		//validar colision con barrera
 		movil.actualizarImagen()
-		if(movil.position().x() < game.width()- movil.velocidad() - movil.anchoImg())
+		if(movil.position().x() <= game.width()- movil.velocidad() - movil.anchoImg())
 			movil.position().right(movil.velocidad())
 		else{
-			movil.position().left(movil.velocidad())
+			movil.position().x(game.width() - movil.anchoImg())
 			movil.direccion(quieto)
 		}
 	}
@@ -40,10 +40,10 @@ object izquierda
 	{
 		//validar colision con barrera
 		movil.actualizarImagen()
-		if(movil.position().x() > movil.velocidad())
+		if(movil.position().x() >= movil.velocidad())
 			movil.position().left(movil.velocidad())
 		else{
-			movil.position().right(movil.velocidad())
+			movil.position().x(0)
 			movil.direccion(quieto)
 		}
 	}
@@ -55,10 +55,10 @@ object arriba
 	{
 		//validar colision con barrera
 		movil.actualizarImagen()
-		if(movil.position().y() < utils.alturaJuego() - movil.velocidad() - movil.alturaImg())
+		if(movil.position().y() <= utils.alturaJuego() - movil.velocidad() - movil.alturaImg())
 			movil.position().up(movil.velocidad())
 		else{
-			movil.position().down(movil.velocidad())
+			movil.position().y(utils.alturaJuego() - movil.alturaImg())
 			movil.direccion(quieto)
 		}
 	}
@@ -70,10 +70,10 @@ object abajo
 	{
 		//validar colision con barrera
 		movil.actualizarImagen()
-		if(movil.position().y() > movil.velocidad())
+		if(movil.position().y() >= movil.velocidad())
 			movil.position().down(movil.velocidad())
 		else{
-			movil.position().up(movil.velocidad())
+			movil.position().y(0)
 			movil.direccion(quieto)
 		}
 	}

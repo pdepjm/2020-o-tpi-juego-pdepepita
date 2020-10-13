@@ -8,8 +8,8 @@ object covid inherits Movil{
 	override method init()
 	{
 		self.image("covid.png")
-		self.anchoImg(utils.getPixel(62))
-		self.alturaImg(utils.getPixel(50))
+		self.anchoImg(utils.getPixel(38))
+		self.alturaImg(utils.getPixel(40))
 		
 		self.position(new MiPosicion(x = 0, y = utils.alturaJuego() - self.alturaImg()))
 		self.direccion(quieto)
