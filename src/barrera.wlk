@@ -7,7 +7,7 @@ object barrera {
 	var property image = barrera.img()
 	method cambiar()
 	{
-		if(barrera == barreraHorizontal)
+		if(barrera.equals(barreraHorizontal))
 			barrera = barreraVertical
 		else
 			barrera = barreraHorizontal

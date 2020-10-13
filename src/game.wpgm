@@ -17,8 +17,8 @@ program game {
 	*/
 	game.cellSize(utils.cellSize())
 	//tamaño en celdas
-	game.width(350) 
-	game.height(350)
+	game.width(utils.getPixel(700)) 
+	game.height(utils.getPixel(700))
 	
 	// Metodos que inicializan las variables de los objetos nave y covid
 	// (necesario porque ambos heredan de la clase abstracta Movil, 
@@ -41,8 +41,8 @@ program game {
 	
 	// ver display.wlk, este es el cartelito numerico (en lo posible, mejorar implementacion)
 	
-	display.position(new MiPosicion(x = game.width() - utils.getPixel(100), y = game.height() - utils.getPixel(30)))
-	display.mostrarNum(30)
+	display.position(new MiPosicion(x = game.width() - utils.getPixel(120), y = game.height() - utils.getPixel(30)))
+	display.mostrarNum(30) //Arrancar timer en 30s
 	
 	game.onTick(8, "mover pjs", { jugadores.forEach{jugador => jugador.mover()}})
 	game.onTick(1000, "timer", { player.avanzarTimer()})

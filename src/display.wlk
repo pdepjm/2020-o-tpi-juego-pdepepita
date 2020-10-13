@@ -4,72 +4,49 @@ import miposicion.*
 import utils.*
 import player.*
 
-class Cifra{
+class Caracter{
 	var property position
-	var property image = "0.png"
-	
-	method valor(numero)
-	{
-		image = numero.toString() + ".png"
-	}
+	var property image
 }
 
 object display { //class ?
 	var property position
+	//utilizada para los caracteres
+	
+	var property posicionRelativa
 	var property valor = 0
 	
-	var property cifras = []
+	var property caracteres = [] //Objetos de clase caracter
 	
-	//Esto es horrendo, si a alguien se le ocurre una mejor manera cambie esto 
 	method mostrarNum(numero)
 	{
 		valor = numero
-		if(cifras.size() > 0)
-		{
-			cifras.forEach{cifra => game.removeVisual(cifra)}
-			cifras.clear()
-		}
-		var posRelativa = new MiPosicion(x = position.x(), y = position.y())
+		self.mostrarString(numero.toString())
+	}	
+	
+	method mostrarString(string)
+	{
+		caracteres.forEach{objCaracter => game.removeVisual(objCaracter)}
+		caracteres.clear()
 		
-		if(numero < 10){
-			var cifra = new Cifra(position = posRelativa) 
-			cifra.valor(numero.truncate(0))
-			cifras.add(cifra)//str = numero.toString() + ".png"
-			//game.say(nave, numero.toString())
+		posicionRelativa = new MiPosicion(x = position.x(), y = position.y())
 		
-		}
-		else if(numero < 100)
-		{
-			var cifra = new Cifra(position = new MiPosicion(x = position.x(), y = position.y()))
-			cifra.valor((numero/10).truncate(0))
-			cifras.add(cifra)
-			cifra = new Cifra(position = new MiPosicion(x = position.x() + utils.getPixel(16), y = position.y()))
-			//game.say(nave, (numero%10).toString())
-			cifra.valor((numero%10).truncate(0))
-			cifras.add(cifra)
-		}
-		else if(numero < 1000)
-		{
-			var val
-			var cifra 
-			cifra = new Cifra(position = new MiPosicion(x = position.x(), y = position.y()))
-			val = (numero/100).truncate(0)
-			cifra.valor(val)
-			cifras.add(cifra)
-			
-
-			cifra = new Cifra(position = new MiPosicion(x = position.x() + utils.getPixel(16), y = position.y()))
-			val =((numero%100)/10 ).truncate(0)
-			cifra.valor(val)
-			cifras.add(cifra)
-			
-			cifra = new Cifra(position = new MiPosicion(x = position.x() + utils.getPixel(32), y = position.y()))
-			val = ((numero%100)%10).truncate(0)
-			cifra.valor(val)
-			cifras.add(cifra)
-		}
-		if(cifras.size() > 0)
-			cifras.forEach{cifra => game.addVisual(cifra)}
+		//caracteres simples
+		const lista_caracteres = utils.stringToCharList(string)
+		lista_caracteres.forEach{caracter => self.agregar(caracter)}
+		//clase caracter
+		caracteres.forEach{objCaracter => game.addVisual(objCaracter )}
+	}
+		
+	method agregar(caracter)
+	{
+		const imagen = caracter + ".png"
+		
+		posicionRelativa.right(utils.getPixel(16))
+		const nuevaPos = new MiPosicion(x = posicionRelativa.x(), y = posicionRelativa.y())
+		
+		const nuevoCaracter = new Caracter(position = nuevaPos, image = imagen)
+		caracteres.add(nuevoCaracter)
 		
 	}
 }

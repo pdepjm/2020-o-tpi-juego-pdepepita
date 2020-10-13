@@ -37,7 +37,13 @@ object utils {
 		
 		keyboard.y().onPressDo {barrera.cambiar()}
 	}
-	
+	method stringToCharList(string)
+	{
+		const charList = []
+		const range = new Range(start = 0, end = string.length() -1 )
+		range.forEach { index => charList.add(string.charAt(index)) }
+		return charList
+	}	
 	/*
 	method validarBordes(position, speed) = 
 		position.x() < game.width() - (speed + 2)

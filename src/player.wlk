@@ -33,14 +33,13 @@ object player inherits Movil{
 	method avanzarTimer()
 	{
 		var val = display.valor()
+		
 		if(val > 0){
 			val -=1
 			display.mostrarNum(val)
 		}
 		else
-		{
 			self.finalizarJuego(ganador)
-		}
 	
 	}
 	method finalizarJuego(est)
