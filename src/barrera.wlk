@@ -24,7 +24,7 @@ class ComponenteBarrera
 	}
 }
 object barrera {
-	var property barrera = barreraHorizontal
+	var property orientacion = barreraHorizontal
 	var property position = new MiPosicion( x= utils.getPixel(75), y = utils.getPixel(55))
 	//var property componentes = [new ComponenteBarrera(position = position, image = "barrerasH.png", ancho=utils.getPixel(550), altura= utils.getPixel(10))]
 	var property componentes = []
@@ -35,10 +35,10 @@ object barrera {
 	/*Cambio entre barreras horizontales y verticales */
 	method cambiar()
 	{
-		if(barrera.equals(barreraHorizontal))
-			barrera = barreraVertical
+		if(orientacion.equals(barreraHorizontal))
+			orientacion = barreraVertical
 		else
-			barrera = barreraHorizontal
+			orientacion = barreraHorizontal
 		
 		self.eliminarComponentes()
 		self.generarComponentes()
@@ -57,8 +57,8 @@ object barrera {
 	method generarComponentes()
 	{
 		const posicionRelativa = new MiPosicion(x = position.x(), y = position.y())
-		const desplazamiento = barrera.obtenerDesp(maxBarreras)
-		new Range( start = 0, end = maxBarreras).forEach{indice => barrera.nuevaBarrera(posicionRelativa, desplazamiento, componentes) }
+		const desplazamiento = orientacion.obtenerDesp(maxBarreras)
+		new Range( start = 0, end = maxBarreras).forEach{indice => orientacion.nuevaBarrera(posicionRelativa, desplazamiento, componentes) }
 	}
 	
 	method mostrarComponentes() { componentes.forEach{componente => game.addVisual(componente)} }
@@ -71,18 +71,7 @@ object barrera {
 		const yf = obj.position().y() + obj.alturaImg()
 		
 		return componentes.any{componente => componente.verificarColision(xi, yi, xf, yf)}
-		/*
-		if(componentes.any{componente => componente.verificarColision(xi, yi, xf, yf)})
-		{
-			//displayColision.mostrarNum(1)
-			return true
-		}
-		else
-		{
-			//displayColision.mostrarNum(0)
-			return false
-		}
-		 */
+		
 
 	}
 	
