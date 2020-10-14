@@ -1,26 +1,123 @@
 import miposicion.*
 import utils.*
+import wollok.game.*
+import display.*
 
+class ComponenteBarrera
+{
+	var property position
+	var property image
+	var property ancho
+	var property altura
+	
+	method verificarColision(xi, yi, xf, yf)
+	{
+		const bXi = position.x()
+		const bXf = position.x() + ancho
+		const bYi = position.y()
+		const bYf = position.y() + altura
+		
+		
+		return 	bXi <= xf and xi <= bXf and 
+				bYi <= yf and yi <= bYf
+		   
+	}
+}
 object barrera {
 	var property barrera = barreraHorizontal
 	var property position = new MiPosicion( x= utils.getPixel(75), y = utils.getPixel(55))
-	var property image = barrera.img()
+	//var property componentes = [new ComponenteBarrera(position = position, image = "barrerasH.png", ancho=utils.getPixel(550), altura= utils.getPixel(10))]
+	var property componentes = []
+	var property maxBarreras = 4
+
+	//var displayColision = new Display(position =  new MiPosicion(x = game.width()/2, y = game.height()/2))
+	
+	/*Cambio entre barreras horizontales y verticales */
 	method cambiar()
 	{
 		if(barrera.equals(barreraHorizontal))
 			barrera = barreraVertical
 		else
 			barrera = barreraHorizontal
-			
-		image = barrera.img()
+		
+		self.eliminarComponentes()
+		self.generarComponentes()
+		self.mostrarComponentes()
+	}
+	
+	method eliminarComponentes() 
+	{
+		if(componentes.size() > 0)
+		{
+			componentes.forEach{componente => game.removeVisual(componente)}
+			componentes.clear()
+		}
+	}
+	
+	method generarComponentes()
+	{
+		const posicionRelativa = new MiPosicion(x = position.x(), y = position.y())
+		const desplazamiento = barrera.obtenerDesp(maxBarreras)
+		new Range( start = 0, end = maxBarreras).forEach{indice => barrera.nuevaBarrera(posicionRelativa, desplazamiento, componentes) }
+	}
+	
+	method mostrarComponentes() { componentes.forEach{componente => game.addVisual(componente)} }
+	
+	method verificarColision(obj)
+	{
+		const xi = obj.position().x()
+		const yi = obj.position().y()
+		const xf = obj.position().x() + obj.anchoImg()
+		const yf = obj.position().y() + obj.alturaImg()
+		
+		return componentes.any{componente => componente.verificarColision(xi, yi, xf, yf)}
+		/*
+		if(componentes.any{componente => componente.verificarColision(xi, yi, xf, yf)})
+		{
+			//displayColision.mostrarNum(1)
+			return true
+		}
+		else
+		{
+			//displayColision.mostrarNum(0)
+			return false
+		}
+		 */
+
 	}
 	
 }
 
+
 object barreraHorizontal{
-	method img() = "barrerasH.png"
+	const img = "barreraH.png"
+	const ancho = utils.getPixel(550)
+	const altura = utils.getPixel(10)
+	
+	//method obtenerDesp(cant) = utils.getPixel(((550 - 10*cant) / (cant-1) ) + 10)
+	method obtenerDesp(cant) = ((ancho - altura*cant) / (cant - 1)) + altura
+	method nuevaBarrera(posicion, desplazamiento, componentes)
+	{
+		const nuevaPos = new MiPosicion (x = posicion.x(), y = posicion.y())
+		const bar = new ComponenteBarrera(position = nuevaPos, ancho = ancho, altura = altura, image = img)
+		componentes.add(bar)
+		posicion.up(desplazamiento)
+	}
+	
 }
 
 object barreraVertical{
-	method img() = "barrerasV.png"
+	const img = "barreraV.png"
+	const ancho = utils.getPixel(10)
+	const altura = utils.getPixel(550)
+	
+	method obtenerDesp(cant) = ((altura - ancho*cant) / (cant-1) ) + ancho
+	
+	method nuevaBarrera(posicion, desplazamiento, componentes)
+	{
+		const nuevaPos = new MiPosicion (x = posicion.x(), y = posicion.y())
+		const bar = new ComponenteBarrera(position = nuevaPos, ancho = ancho, altura = altura, image = img)
+		componentes.add(bar)
+		posicion.right(desplazamiento)
+	}
 }

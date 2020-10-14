@@ -36,6 +36,7 @@ object utils {
 		keyboard.p().onPressDo {game.stop()}
 		
 		keyboard.y().onPressDo {barrera.cambiar()}
+		keyboard.u().onPressDo {barrera.eliminarComponentes()}
 	}
 	/* Convierto un string en una lista con sus caracteres*/
 	method stringToCharList(string)

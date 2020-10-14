@@ -54,6 +54,7 @@ describe "tests de movil"
 
 describe "tests de player"
 {
+	const display = new Display(position = new MiPosicion(x = game.width() - utils.getPixel(120), y = game.height() - utils.getPixel(30)))
 	fixture
 	{
 		game.cellSize(utils.cellSize())
@@ -71,7 +72,7 @@ describe "tests de player"
 		game.onTick(5000, "timer", { })
 		game.onTick(5000, "covidBar", {})
 	
-		display.position(new MiPosicion(x = game.width() - utils.getPixel(120), y = game.height() - utils.getPixel(30)))
+		
 		display.mostrarNum(2) //Arrancar timer en 2s
 		
 	}

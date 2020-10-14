@@ -11,7 +11,7 @@ object player inherits Movil{
 
 	//estado  1 "victoria", -1 "derrota", 0 "en juego"
 	var property estado = enJuego
-	
+	var displayTimer 
 	override method init()
 	{
 		self.image("nave_arriba.png")
@@ -20,8 +20,11 @@ object player inherits Movil{
 		
 		self.position(new MiPosicion(x = game.width() - self.anchoImg(), y = 0))
 		self.direccion(quieto)
-		self.velocidad(10)
+		self.velocidad(3)
 		
+		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(120), y = game.height() - utils.getPixel(30)))
+		displayTimer.mostrarNum(30) //Arrancar timer en 30s
+	
 	}
 	override method actualizarImagen()
 	{
@@ -32,28 +35,29 @@ object player inherits Movil{
 	
 	method avanzarTimer()
 	{
-		var val = display.valor()
+		var val = displayTimer.valor()
 		
 		if(val > 0){
 			val -=1
-			display.mostrarNum(val)
+			displayTimer.mostrarNum(val)
 		}
 		else
 			self.finalizarJuego(ganador)
-	 	
+		
 	}
 	method finalizarJuego(est)
 	{
 		estado = est
 		game.removeVisual(self)
 		game.removeVisual(covid)
-		game.removeVisual(barrera)
+		barrera.eliminarComponentes()
 		estado.mostrarCartel()
 		game.removeTickEvent("timer")
 		game.removeTickEvent("mover pjs")
 		game.removeTickEvent("covidBar")
 		
 	}
+	
 }
 
 object ganador 

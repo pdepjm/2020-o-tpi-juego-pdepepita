@@ -9,10 +9,10 @@ class Caracter{
 	var property image
 }
 
-object display { //class ?
+class Display { //class ?
 	var property position
 	//utilizada para los caracteres
-	var property posicionRelativa
+	var property posicionRelativa = game.at(0,0)
 	//Para lectura del valor numerico (timer)
 	var property valor = 0
 	
