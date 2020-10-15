@@ -25,7 +25,7 @@ class ComponenteBarrera
 }
 object barrera {
 	var property orientacion = barreraHorizontal
-	var property position = new MiPosicion( x= utils.getPixel(75), y = utils.getPixel(55))
+	var property position = new MiPosicion( x= utils.getPixel(100), y = utils.getPixel(100))
 	//var property componentes = [new ComponenteBarrera(position = position, image = "barrerasH.png", ancho=utils.getPixel(550), altura= utils.getPixel(10))]
 	var property componentes = []
 	var property maxBarreras = 4
@@ -57,8 +57,9 @@ object barrera {
 	method generarComponentes()
 	{
 		const posicionRelativa = new MiPosicion(x = position.x(), y = position.y())
-		const desplazamiento = orientacion.obtenerDesp(maxBarreras)
-		new Range( start = 0, end = maxBarreras).forEach{indice => orientacion.nuevaBarrera(posicionRelativa, desplazamiento, componentes) }
+		//const desplazamiento = orientacion.obtenerDesp(maxBarreras)
+		const desplazamiento = utils.getPixel(100) + utils.getPixel(20)
+		new Range( start = 0, end = maxBarreras -1 ).forEach{indice => orientacion.nuevaBarrera(posicionRelativa, desplazamiento, componentes) }
 	}
 	
 	method mostrarComponentes() { componentes.forEach{componente => game.addVisual(componente)} }
@@ -80,8 +81,8 @@ object barrera {
 
 object barreraHorizontal{
 	const img = "barreraH.png"
-	const ancho = utils.getPixel(550)
-	const altura = utils.getPixel(10)
+	const ancho = utils.getPixel(380)
+	const altura = utils.getPixel(20)
 	
 	//method obtenerDesp(cant) = utils.getPixel(((550 - 10*cant) / (cant-1) ) + 10)
 	method obtenerDesp(cant) = ((ancho - altura*cant) / (cant - 1)) + altura
@@ -89,6 +90,7 @@ object barreraHorizontal{
 	{
 		const nuevaPos = new MiPosicion (x = posicion.x(), y = posicion.y())
 		const bar = new ComponenteBarrera(position = nuevaPos, ancho = ancho, altura = altura, image = img)
+		console.println("x "+nuevaPos.x() + ", y "+nuevaPos.y())
 		componentes.add(bar)
 		posicion.up(desplazamiento)
 	}
@@ -97,8 +99,8 @@ object barreraHorizontal{
 
 object barreraVertical{
 	const img = "barreraV.png"
-	const ancho = utils.getPixel(10)
-	const altura = utils.getPixel(550)
+	const ancho = utils.getPixel(20)
+	const altura = utils.getPixel(380)
 	
 	method obtenerDesp(cant) = ((altura - ancho*cant) / (cant-1) ) + ancho
 	

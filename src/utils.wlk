@@ -15,7 +15,7 @@ object utils {
 	method getPixel(num) = (num / cellSize).truncate(0)
 	
 	/*Altura sin barra superior*/
-	method alturaJuego() = game.height() - self.getPixel(40)
+	method alturaJuego() = game.height() - self.getPixel(80)
 	
 	method configTeclas()
 	{

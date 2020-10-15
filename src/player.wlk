@@ -22,7 +22,7 @@ object player inherits Movil{
 		self.direccion(quieto)
 		self.velocidad(3)
 		
-		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(120), y = game.height() - utils.getPixel(30)))
+		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(100), y = game.height() - utils.getPixel(30)))
 		displayTimer.mostrarNum(30) //Arrancar timer en 30s
 	
 	}

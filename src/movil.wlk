@@ -9,7 +9,7 @@ class Movil{
 	var property velocidad
 	var property anchoImg
 	var property alturaImg
-	
+	var property multiplicadorRebote = 3
 	method init()
 	
 	method actualizarImagen()
@@ -43,7 +43,7 @@ object derecha
 	}
 	method rebotar(movil)
 	{
-		movil.position().left(movil.velocidad())
+		movil.position().left(movil.velocidad()* movil.multiplicadorRebote())
 		movil.direccion(quieto)	
 	}
 }
@@ -65,7 +65,7 @@ object izquierda
 	}
 	method rebotar(movil)
 	{
-		movil.position().right(movil.velocidad())
+		movil.position().right(movil.velocidad()*movil.multiplicadorRebote())
 		movil.direccion(quieto)	
 	}
 }
@@ -87,7 +87,7 @@ object arriba
 	
 	method rebotar(movil)
 	{
-		movil.position().down(movil.velocidad())
+		movil.position().down(movil.velocidad()*movil.multiplicadorRebote())
 		movil.direccion(quieto)	
 	}
 }
@@ -110,7 +110,7 @@ object abajo
 	
 	method rebotar(movil)
 	{
-		movil.position().up(movil.velocidad())
+		movil.position().up(movil.velocidad()*movil.multiplicadorRebote())
 		movil.direccion(quieto)
 	}
 	
@@ -124,6 +124,5 @@ object quieto
 	method rebotar(movil)
 	{
 		movil.orientacion().rebotar(movil)
-		
 	}
 }

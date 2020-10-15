@@ -43,12 +43,12 @@ object covidBar
 }
 object fill
 {
-	var property position = new MiPosicion( x = utils.getPixel(-194), y = game.height()-utils.getPixel(29))
+	var property position = new MiPosicion( x = utils.getPixel(-194), y = game.height()-utils.getPixel(34))
 	var property image = "barFill.png"		
 }
 
 object border 
 {
-	var property position =  new MiPosicion( x =0,y =game.height()-15)
+	var property position =  new MiPosicion( x =0,y =game.height()-utils.getPixel(36))
 	var property image = "barBorder.png"
 }
