@@ -39,12 +39,16 @@ program game {
 	// ver bar.wlk, esta es la barra de covid por proximidad
 	covidBar.mostrar()
 	
+	//mostro las barreras
+	barrera.init()
+	
 	game.onTick(10, "mover pjs", { jugadores.forEach{jugador => jugador.mover()}})
 	game.onTick(1000, "timer", { player.avanzarTimer()})
 	game.onTick(50, "covidBar", { covidBar.actualizar(covid.obtenerDistancia(player))})
 	game.onTick(50, "alerta", {alerta.actualizar()})
 	
-	game.onTick(60, "colisiones", {jugadores.forEach{jugador => jugador.verificarColision()}})
+	//game.onTick(60, "colisiones", {jugadores.forEach{jugador => jugador.verificarColision()}})
+	game.onTick(40, "zonabarreras", {jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}})
 	utils.configTeclas()
 	
 	game.start()

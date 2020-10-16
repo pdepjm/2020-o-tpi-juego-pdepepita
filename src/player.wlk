@@ -12,6 +12,7 @@ object player inherits Movil{
 	//estado  1 "victoria", -1 "derrota", 0 "en juego"
 	var property estado = enJuego
 	var displayTimer 
+	var property timer = true
 	override method init()
 	{
 		self.image("nave_arriba.png")
@@ -36,14 +37,15 @@ object player inherits Movil{
 	method avanzarTimer()
 	{
 		var val = displayTimer.valor()
-		
-		if(val > 0){
-			val -=1
-			displayTimer.mostrarNum(val)
+		if(timer)
+		{
+			if(val > 0){
+				val -=1
+				displayTimer.mostrarNum(val)
+			}
+			else
+				self.finalizarJuego(ganador)
 		}
-		else
-			self.finalizarJuego(ganador)
-		
 	}
 	method finalizarJuego(est)
 	{

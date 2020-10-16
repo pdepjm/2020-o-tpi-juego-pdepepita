@@ -1,8 +1,9 @@
 import miposicion.*
 import wollok.game.*
+import utils.*
 
 object alerta {
-	var property position = new MiPosicion(x = 0, y = 0)
+	var property position = new MiPosicion(x = 0, y = utils.getPixel(-80))
 	var property image
 	
 	var alertando = false

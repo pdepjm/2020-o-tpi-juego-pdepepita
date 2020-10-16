@@ -9,7 +9,7 @@ class Caracter{
 	var property image
 }
 
-class Display { //class ?
+class Display {
 	var property position
 	//utilizada para los caracteres
 	var property posicionRelativa = game.at(0,0)

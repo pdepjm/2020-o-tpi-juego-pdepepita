@@ -10,18 +10,61 @@ class Movil{
 	var property anchoImg
 	var property alturaImg
 	var property multiplicadorRebote = 3
+	var enZonaDeBarreras = false
 	method init()
 	
 	method actualizarImagen()
 	//direccion es obj arriba|abajo|izquierda|derecha
-	method mover(){ direccion.mover(self) }
+	method mover(){ 
+		direccion.mover(self)
+	}
 	
 	method obtenerDistancia(pj) = self.position().distance(pj.position())
 	
 	method verificarColision()
 	{
+		/*
 		if (barrera.verificarColision(self))
 			direccion.rebotar(self)
+			*/
+	}
+	method verificarZonaDeBarreras()
+	{ 
+		const previo = enZonaDeBarreras
+		
+		enZonaDeBarreras = position.x() + anchoImg >= barrera.position().x() 
+		and position.x() <= barrera.position().x() + barrera.largoBarreras() 
+		and position.y() + alturaImg >= barrera.position().y() 
+		and position.y() <= barrera.position().y() + barrera.largoBarreras()
+		
+		//Si entro a la zona, lo centro
+		if (previo != enZonaDeBarreras and enZonaDeBarreras)
+			self.centrarEnBarrera()
+	}
+	method centrarEnBarrera()
+	{
+		position = barrera.obtenerCentroCercano(self)
+	}
+	
+	method verificarDireccion(dir)
+	{
+		//Solo permitir el movimiento paralelo a las barreras en esa zona
+		if(enZonaDeBarreras) 
+		{
+			//self.centrarEnBarrera()
+			
+			if(barrera.orientacion().equals(barreraHorizontal))
+				return dir.equals(izquierda) or dir.equals(derecha)
+			else
+				return dir.equals(arriba) or dir.equals(abajo)
+		}
+		return true
+	}
+	
+	method cambiarDireccion(dir)
+	{
+		if(self.verificarDireccion(dir))
+			direccion = dir
 	}
 	
 }
