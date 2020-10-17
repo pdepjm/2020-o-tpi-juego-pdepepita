@@ -10,29 +10,14 @@ class ComponenteBarrera
 	var property image
 	var property ancho
 	var property altura
-	
-	method verificarColision(xi, yi, xf, yf)
-	{
-		const bXi = position.x()
-		const bXf = position.x() + ancho
-		const bYi = position.y()
-		const bYf = position.y() + altura
-		
-		
-		return 	bXi <= xf and xi <= bXf and 
-				bYi <= yf and yi <= bYf
-		   
-	}
 }
 object barrera {
 	var property orientacion = barreraHorizontal
 	var property position = new MiPosicion( x= utils.getPixel(100), y = utils.getPixel(100))
-	//var property componentes = [new ComponenteBarrera(position = position, image = "barrerasH.png", ancho=utils.getPixel(550), altura= utils.getPixel(10))]
 	var property componentes = []
 	var property maxBarreras = 4
 	var property largoBarreras = utils.getPixel(380)
 	var property anchoBarreras = utils.getPixel(20)
-	//var displayColision = new Display(position =  new MiPosicion(x = game.width()/2, y = game.height()/2))
 	
 	method init()
 	{
@@ -47,7 +32,9 @@ object barrera {
 			orientacion = barreraVertical
 		else
 			orientacion = barreraHorizontal
-		
+		// implementar de alguna forma que el jugador se frene (?) y se centre al cambiar 
+		// de direccion la barrera (sino las atraviesa)
+		// cambiar direccion quizas
 		self.init()
 	}
 	
@@ -73,18 +60,7 @@ object barrera {
 	
 	method mostrarComponentes() { componentes.forEach{componente => game.addVisual(componente)} }
 	
-	method verificarColision(obj)
-	{
-		const xi = obj.position().x()
-		const yi = obj.position().y()
-		const xf = obj.position().x() + obj.anchoImg()
-		const yf = obj.position().y() + obj.alturaImg()
-		
-		return componentes.any{componente => componente.verificarColision(xi, yi, xf, yf)}
-		
 
-	}
-	
 	method obtenerCentroCercano(movil) = orientacion.obtenerCentro(movil) 
 	
 }
@@ -99,7 +75,6 @@ object barreraHorizontal{
 	{
 		const nuevaPos = new MiPosicion (x = posicion.x(), y = posicion.y())
 		const bar = new ComponenteBarrera(position = nuevaPos, ancho = ancho, altura = altura, image = img)
-		//console.println("x "+nuevaPos.x() + ", y "+nuevaPos.y())
 		componentes.add(bar)
 		centros.add(posicion.y() + (desplazamiento - altura)/2)
 		posicion.up(desplazamiento)
@@ -113,14 +88,10 @@ object barreraHorizontal{
 	method obtenerCentro(movil)
 	{
 		const nuevaPos = new MiPosicion( x = movil.position().x(), y = movil.position().y())
-		//const nuevaPos = new MiPosicion( x = 0, y = 0)
-		centros.forEach{centro => console.println("c "+centro.toString())}
 		const centro = centros.min{centro => (centro - nuevaPos.y()).abs()}
 		const min = centros.min()
 		const max = centros.max()
 		
-		//const min= 0
-		//console.println("y="+nuevaPos.y()+" min "+min.toString())
 		if (centro == min or centro == max)
 			movil.direccion(quieto)
 			
@@ -147,9 +118,7 @@ object barreraVertical{
 	method obtenerCentro(movil)
 	{
 		const nuevaPos = new MiPosicion( x = movil.position().x(), y = movil.position().y())
-		//const nuevaPos = new MiPosicion( x = 0, y = 0)
 		const centro = centros.min{centro => (centro - nuevaPos.x()).abs()}
-		//const min= 0
 		const min = centros.min()
 		const max = centros.max()
 		
@@ -157,7 +126,6 @@ object barreraVertical{
 			movil.direccion(quieto)
 				
 		nuevaPos.x(centro)
-		//console.println("min "+min.toString())
 		return nuevaPos
 	}
 	method centroAfuera(posicion, desplazamiento)

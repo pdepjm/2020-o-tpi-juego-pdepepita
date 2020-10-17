@@ -41,6 +41,7 @@ class Movil{
 		if (previo != enZonaDeBarreras and enZonaDeBarreras)
 			self.centrarEnBarrera()
 	}
+	
 	method centrarEnBarrera()
 	{
 		position = barrera.obtenerCentroCercano(self)
@@ -51,8 +52,6 @@ class Movil{
 		//Solo permitir el movimiento paralelo a las barreras en esa zona
 		if(enZonaDeBarreras) 
 		{
-			//self.centrarEnBarrera()
-			
 			if(barrera.orientacion().equals(barreraHorizontal))
 				return dir.equals(izquierda) or dir.equals(derecha)
 			else
