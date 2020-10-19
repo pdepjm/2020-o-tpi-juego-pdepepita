@@ -13,6 +13,8 @@ object player inherits Movil{
 	var property estado = enJuego
 	var displayTimer 
 	var property timer = true
+	const powerUps = []
+	
 	override method init()
 	{
 		self.image("nave_arriba.png")
@@ -59,7 +61,23 @@ object player inherits Movil{
 		game.removeTickEvent("covidBar")
 		
 	}
+	method agregarPowerUp(powerUp)
+	{
+		powerUps.add(powerUp)
+		console.println("agarro "+ powerUp.toString())
+		//agregar a display
+	}
 	
+	method usarPowerUp()
+	{
+		if(powerUps.size() > 0)
+		{
+			const unPowerUp = powerUps.first()
+			powerUps.remove(unPowerUp)
+			console.println("uso "+ unPowerUp.toString())
+			unPowerUp.usar(self)			
+		}
+	}
 }
 
 object ganador 

@@ -7,7 +7,8 @@ import alerta.*
 object covidBar
 {
 	var property valor = 0
-	
+	var property puedeContagiar = true
+	var property multiplicadorMutacion = 0.05
 	method mostrar()
 	{
 		game.addVisual(fill)
@@ -20,14 +21,17 @@ object covidBar
 		if(distancia < 100)
 		{
 			//alerta.alertando(true)
-			alerta.iniciarAlerta()
-			
-			valor += ((100-distancia)*0.05)
-			
-			if(valor >= 100)
-			{
-				valor = 100	
-				player.finalizarJuego(perdedor)
+			if(puedeContagiar){
+				alerta.iniciarAlerta()
+				
+				valor += ((100-distancia)*multiplicadorMutacion)
+				
+				if(valor >= 100)
+				{
+					valor = 100	
+					player.finalizarJuego(perdedor)
+				}
+				
 			}
 		}
 		else

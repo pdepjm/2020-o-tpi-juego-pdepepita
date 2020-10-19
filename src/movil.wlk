@@ -1,6 +1,42 @@
 import wollok.game.*
 import utils.*
 import barrera.*
+import player.*
+import covid.*
+
+object gestorJugadores
+{
+	var property jugadores = []
+	
+	method agregarJugador(jugador){ 
+		jugadores.add(jugador)
+		game.addVisual(jugador)
+	}
+	method moverJugadores(){ jugadores.forEach{jugador=> jugador.mover()} }
+	method colisionesJugadores() {jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}}
+	method reubicar(orientacion)
+	{
+		jugadores.forEach{jugador => 
+			if(jugador.enZonaDeBarreras())
+			{
+				jugador.centrarEnBarrera()
+				jugador.direccion(quieto)
+			}
+		}
+	}
+	method separarJugadores()
+	{
+		covid.position().x(0)
+		covid.position().y(game.height() - covid.alturaImg())
+		
+		
+		player.position().y(0)
+		player.position().x(game.width() - player.anchoImg())
+		
+		jugadores.forEach{jugador => jugador.direccion(quieto)}
+	}
+	
+}
 class Movil{
 	var property position 
 	var property image
@@ -10,7 +46,7 @@ class Movil{
 	var property anchoImg
 	var property alturaImg
 	var property multiplicadorRebote = 3
-	var enZonaDeBarreras = false
+	var property enZonaDeBarreras = false
 	method init()
 	
 	method actualizarImagen()
@@ -21,13 +57,6 @@ class Movil{
 	
 	method obtenerDistancia(pj) = self.position().distance(pj.position())
 	
-	method verificarColision()
-	{
-		/*
-		if (barrera.verificarColision(self))
-			direccion.rebotar(self)
-			*/
-	}
 	method verificarZonaDeBarreras()
 	{ 
 		const previo = enZonaDeBarreras

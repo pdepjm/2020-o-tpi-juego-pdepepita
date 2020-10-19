@@ -31,6 +31,7 @@ object utils {
 		keyboard.s().onPressDo {player.cambiarDireccion(abajo)}
 		keyboard.a().onPressDo {player.cambiarDireccion(izquierda)}
 		keyboard.d().onPressDo {player.cambiarDireccion(derecha)}
+		keyboard.e().onPressDo {player.usarPowerUp()}
 		
 		keyboard.c().onPressDo {player.direccion(quieto)}
 		
@@ -39,6 +40,7 @@ object utils {
 		keyboard.left().onPressDo {covid.cambiarDireccion(izquierda)}
 		keyboard.right().onPressDo {covid.cambiarDireccion(derecha)}
 		keyboard.l().onPressDo {covid.direccion(quieto)}
+		keyboard.m().onPressDo {covid.usarPowerUp()}
 		//cierro el juego con P, buscar escape?
 		keyboard.p().onPressDo {game.stop()}
 		

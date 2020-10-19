@@ -7,7 +7,9 @@ import bar.*
 import covid.*
 import barrera.*
 import alerta.*
-const jugadores = []
+import movil.*
+import powerup.*
+
 program game {
 	game.title("PdePepita")
 	game.boardGround("background.png")
@@ -20,21 +22,17 @@ program game {
 	game.width(utils.getPixel(580)) 
 	game.height(utils.getPixel(660))
 	
-	// Metodos que inicializan las variables de los objetos nave y covid
+	// Metodos que inicializan las variables de los objetos player y covid
 	// (necesario porque ambos heredan de la clase abstracta Movil, 
 	// que tiene el metodo Mover() implementado, y de manera abstracta
 	// los metodos actualizarImagen() e init()
 	// con esto evitamos repetir el movimiento de los jugadores
 	player.init()
 	covid.init()
-	game.addVisual(player)
-	game.addVisual(covid)
+	gestorJugadores.agregarJugador(player)
+	gestorJugadores.agregarJugador(covid)
 	//game.addVisual(barrera)
 	game.addVisual(alerta)
-	
-	
-	jugadores.add(player)
-	jugadores.add(covid)
 	
 	// ver bar.wlk, esta es la barra de covid por proximidad
 	covidBar.mostrar()
@@ -42,13 +40,15 @@ program game {
 	//mostro las barreras
 	barrera.init()
 	
-	game.onTick(10, "mover pjs", { jugadores.forEach{jugador => jugador.mover()}})
-	game.onTick(1000, "timer", { player.avanzarTimer()})
-	game.onTick(50, "covidBar", { covidBar.actualizar(covid.obtenerDistancia(player))})
-	game.onTick(50, "alerta", {alerta.actualizar()})
+	game.onTick(10, 	"mover pjs", 	{ gestorJugadores.moverJugadores() })
+	game.onTick(1000, 	"timer", 		{ player.avanzarTimer() })
+	game.onTick(50, 	"covidBar", 	{ covidBar.actualizar(covid.obtenerDistancia(player)) })
+	game.onTick(50,		"alerta", 		{ alerta.actualizar() })
+	game.onTick(5000,	"powerUps",		{ gestorPowerUps.aparecer() })
+	game.onTick(100,	"colisionPower",{ gestorPowerUps.verificarColisiones() })
+	game.onTick(40, 	"zonabarreras", { gestorJugadores.colisionesJugadores() })
 	
-	//game.onTick(60, "colisiones", {jugadores.forEach{jugador => jugador.verificarColision()}})
-	game.onTick(40, "zonabarreras", {jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}})
+	
 	utils.configTeclas()
 	
 	game.start()

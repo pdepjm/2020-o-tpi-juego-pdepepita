@@ -35,7 +35,9 @@ object barrera {
 		// implementar de alguna forma que el jugador se frene (?) y se centre al cambiar 
 		// de direccion la barrera (sino las atraviesa)
 		// cambiar direccion quizas
+		
 		self.init()
+		gestorJugadores.reubicar(orientacion)
 	}
 	
 	method eliminarComponentes() 
@@ -97,8 +99,7 @@ object barreraHorizontal{
 			
 		nuevaPos.y(centro)
 		return nuevaPos
-	}
-	
+	}	
 }
 
 object barreraVertical{
