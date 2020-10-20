@@ -11,9 +11,8 @@ object player inherits Movil{
 
 	//estado  1 "victoria", -1 "derrota", 0 "en juego"
 	var property estado = enJuego
-	var displayTimer 
+	var property displayTimer 
 	var property timer = true
-	const powerUps = []
 	
 	override method init()
 	{
@@ -25,7 +24,7 @@ object player inherits Movil{
 		self.direccion(quieto)
 		self.velocidad(3)
 		
-		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(100), y = game.height() - utils.getPixel(30)))
+		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(94), y = game.height() - utils.getPixel(30)))
 		displayTimer.mostrarNum(30) //Arrancar timer en 30s
 	
 	}
@@ -60,23 +59,6 @@ object player inherits Movil{
 		game.removeTickEvent("mover pjs")
 		game.removeTickEvent("covidBar")
 		
-	}
-	method agregarPowerUp(powerUp)
-	{
-		powerUps.add(powerUp)
-		console.println("agarro "+ powerUp.toString())
-		//agregar a display
-	}
-	
-	method usarPowerUp()
-	{
-		if(powerUps.size() > 0)
-		{
-			const unPowerUp = powerUps.first()
-			powerUps.remove(unPowerUp)
-			console.println("uso "+ unPowerUp.toString())
-			unPowerUp.usar(self)			
-		}
 	}
 }
 

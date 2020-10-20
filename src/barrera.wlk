@@ -32,11 +32,9 @@ object barrera {
 			orientacion = barreraVertical
 		else
 			orientacion = barreraHorizontal
-		// implementar de alguna forma que el jugador se frene (?) y se centre al cambiar 
-		// de direccion la barrera (sino las atraviesa)
-		// cambiar direccion quizas
 		
 		self.init()
+		//reubico los jugadores que hagan falta
 		gestorJugadores.reubicar(orientacion)
 	}
 	
@@ -50,24 +48,24 @@ object barrera {
 		barreraHorizontal.centros().clear()
 		barreraVertical.centros().clear()
 	}
-	
+	/*Me permite generar los componentese de las barreras*/
 	method generarComponentes()
 	{
 		const posicionRelativa = new MiPosicion(x = position.x(), y = position.y())
 		
 		const desplazamiento = utils.getPixel(100) + anchoBarreras
 		orientacion.centroAfuera(posicionRelativa, desplazamiento)
+		//creo tantas nuevas barreras como diga el maximo declarado
 		new Range( start = 0, end = maxBarreras -1 ).forEach{indice => orientacion.nuevaBarrera(posicionRelativa, desplazamiento, componentes) }
 	}
 	
 	method mostrarComponentes() { componentes.forEach{componente => game.addVisual(componente)} }
-	
-
+	/*los "centros" son los puntos x o y entre barreras*/
 	method obtenerCentroCercano(movil) = orientacion.obtenerCentro(movil) 
 	
 }
 
-
+//objetos orientacion
 object barreraHorizontal{
 	const img = "barreraH.png"
 	const ancho = utils.getPixel(380)
@@ -83,14 +81,13 @@ object barreraHorizontal{
 		
 	}
 	method centros() = centros
-	method centroAfuera(posicion, desplazamiento)
-	{
-		centros.add(posicion.y() - (desplazamiento - altura)/2)
-	}
+	
 	method obtenerCentro(movil)
 	{
 		const nuevaPos = new MiPosicion( x = movil.position().x(), y = movil.position().y())
+		// obtengo el "centro" con menor distancia a la posicion del movil
 		const centro = centros.min{centro => (centro - nuevaPos.y()).abs()}
+		// obtengo los externos a la zona de barreras, para saber si tengo que hacer rebotar al movil
 		const min = centros.min()
 		const max = centros.max()
 		
@@ -100,6 +97,11 @@ object barreraHorizontal{
 		nuevaPos.y(centro)
 		return nuevaPos
 	}	
+	/* es un "centro" adicional para que si el movil choca la barrera por afuera, rebote y no entre a la zona*/
+	method centroAfuera(posicion, desplazamiento) 
+	{
+		centros.add(posicion.y() - (desplazamiento - altura)/2)
+	}
 }
 
 object barreraVertical{
@@ -116,19 +118,23 @@ object barreraVertical{
 		posicion.right(desplazamiento)
 	}
 	method centros() = centros
+	
 	method obtenerCentro(movil)
 	{
 		const nuevaPos = new MiPosicion( x = movil.position().x(), y = movil.position().y())
+		// obtengo el "centro" con menor distancia a la posicion del movil
 		const centro = centros.min{centro => (centro - nuevaPos.x()).abs()}
+		// obtengo los externos a la zona de barreras, para saber si tengo que hacer rebotar al movil
 		const min = centros.min()
 		const max = centros.max()
 		
-		if (centro == min or centro == max)
+		if (centro == min or centro == max) //lo freno para evitar repeticiones de rebote
 			movil.direccion(quieto)
-				
+		
 		nuevaPos.x(centro)
 		return nuevaPos
 	}
+	/* es un "centro" adicional para que si el movil choca la barrera por afuera, rebote y no entre a la zona*/
 	method centroAfuera(posicion, desplazamiento)
 	{
 		centros.add(posicion.x() - (desplazamiento - ancho)/2 )

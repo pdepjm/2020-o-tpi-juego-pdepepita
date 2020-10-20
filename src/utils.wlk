@@ -3,6 +3,8 @@ import player.*
 import covid.*
 import barrera.*
 import movil.*
+import display.*
+import miposicion.*
 object utils {
 	const cellSize = 2	
 
@@ -19,20 +21,11 @@ object utils {
 	
 	method configTeclas()
 	{
-		//keyboard.w().onPressDo {jugador.saltar()}
-		//keyboard.s().onPressDo {jugador.deslizarse()}
-		/*
-		keyboard.w().onPressDo {player.direccion(arriba)}
-		keyboard.s().onPressDo {player.direccion(abajo)}
-		keyboard.a().onPressDo {player.direccion(izquierda)}
-		keyboard.d().onPressDo {player.direccion(derecha)}
-		*/
 		keyboard.w().onPressDo {player.cambiarDireccion(arriba)}
 		keyboard.s().onPressDo {player.cambiarDireccion(abajo)}
 		keyboard.a().onPressDo {player.cambiarDireccion(izquierda)}
 		keyboard.d().onPressDo {player.cambiarDireccion(derecha)}
 		keyboard.e().onPressDo {player.usarPowerUp()}
-		
 		keyboard.c().onPressDo {player.direccion(quieto)}
 		
 		keyboard.up().onPressDo {covid.cambiarDireccion(arriba)}
@@ -41,6 +34,7 @@ object utils {
 		keyboard.right().onPressDo {covid.cambiarDireccion(derecha)}
 		keyboard.l().onPressDo {covid.direccion(quieto)}
 		keyboard.m().onPressDo {covid.usarPowerUp()}
+		
 		//cierro el juego con P, buscar escape?
 		keyboard.p().onPressDo {game.stop()}
 		
@@ -53,16 +47,19 @@ object utils {
 	{
 		const charList = []
 		const range = new Range(start = 0, end = string.length() -1 )
-		range.forEach { index => charList.add(string.charAt(index)) }
+		range.forEach { index => charList.add(string.charAt(index).toLowerCase()) }
 		return charList
 	}	
-	/*
-	colision con barreras
-	/*
-	method validarBarreras() 
-			
- 	*/		 
-	
-	
-	
+	/* Muestra un string en la pantalla  */
+	method mostrarMensaje(string)
+	{
+		const display = new Display(position = 
+			new MiPosicion(	x = self.getPixel(100), 
+							y = game.height()/2 ))
+		
+		display.separacion(self.getPixel(18))
+		display.mostrarString(string)
+		
+		game.schedule(2000, {display.init() })
+	}
 }

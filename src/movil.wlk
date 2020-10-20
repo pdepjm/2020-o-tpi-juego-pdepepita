@@ -4,39 +4,6 @@ import barrera.*
 import player.*
 import covid.*
 
-object gestorJugadores
-{
-	var property jugadores = []
-	
-	method agregarJugador(jugador){ 
-		jugadores.add(jugador)
-		game.addVisual(jugador)
-	}
-	method moverJugadores(){ jugadores.forEach{jugador=> jugador.mover()} }
-	method colisionesJugadores() {jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}}
-	method reubicar(orientacion)
-	{
-		jugadores.forEach{jugador => 
-			if(jugador.enZonaDeBarreras())
-			{
-				jugador.centrarEnBarrera()
-				jugador.direccion(quieto)
-			}
-		}
-	}
-	method separarJugadores()
-	{
-		covid.position().x(0)
-		covid.position().y(game.height() - covid.alturaImg())
-		
-		
-		player.position().y(0)
-		player.position().x(game.width() - player.anchoImg())
-		
-		jugadores.forEach{jugador => jugador.direccion(quieto)}
-	}
-	
-}
 class Movil{
 	var property position 
 	var property image
@@ -47,6 +14,7 @@ class Movil{
 	var property alturaImg
 	var property multiplicadorRebote = 3
 	var property enZonaDeBarreras = false
+	const powerUps = []
 	method init()
 	
 	method actualizarImagen()
@@ -94,7 +62,28 @@ class Movil{
 		if(self.verificarDireccion(dir))
 			direccion = dir
 	}
+	method actualizarBarraSuperior(){} //implementar imagenes en barrera superior
 	
+	method agregarPowerUp(powerUp)
+	{
+		powerUps.add(powerUp)
+		console.println("agarro "+ powerUp.toString())
+		self.actualizarBarraSuperior()
+		utils.mostrarMensaje("powerup "+powerUp.toString())
+		//agregar a display
+	}
+	
+	method usarPowerUp()
+	{
+		if(powerUps.size() > 0)
+		{
+			const powerUp = powerUps.first()
+			powerUps.remove(powerUp)
+			console.println("uso "+ powerUp.toString())
+			utils.mostrarMensaje("activado "+powerUp.toString())
+			powerUp.usar(self)			
+		}
+	}
 }
 
 object derecha
@@ -196,4 +185,39 @@ object quieto
 	{
 		movil.orientacion().rebotar(movil)
 	}
+}
+
+object gestorJugadores
+{
+	var property jugadores = []
+	
+	method agregarJugador(jugador){ 
+		jugadores.add(jugador)
+		game.addVisual(jugador)
+	}
+	method moverJugadores(){ jugadores.forEach{jugador=> jugador.mover()} }
+	method colisionesJugadores() {jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}}
+	/* esto se llama cuando ocurre un cambio de orientacion de barreras */
+	method reubicar(orientacion)
+	{
+		jugadores.forEach{jugador => 
+			if(jugador.enZonaDeBarreras())
+			{
+				jugador.centrarEnBarrera()
+				jugador.direccion(quieto)
+			}
+		}
+	}
+	/*powerup separar */
+	method separarJugadores()
+	{
+		covid.position().x(0)
+		covid.position().y(utils.alturaJuego() - covid.alturaImg())
+		
+		player.position().y(0)
+		player.position().x(game.width() - player.anchoImg())
+		
+		jugadores.forEach{jugador => jugador.direccion(quieto)}
+	}
+	
 }
