@@ -9,6 +9,7 @@ object covidBar
 	var property valor = 0
 	var property puedeContagiar = true
 	var property multiplicadorMutacion = 0.05
+	var property distanciaDeContagio = 100
 	method mostrar()
 	{
 		game.addVisual(fill)
@@ -18,9 +19,9 @@ object covidBar
 	{
 		//valor = val
 		
-		if(distancia < 100)
+		if(distancia < distanciaDeContagio)
 		{
-			//alerta.alertando(true)
+			/* powerup barbijo */
 			if(puedeContagiar){
 				alerta.iniciarAlerta()
 				

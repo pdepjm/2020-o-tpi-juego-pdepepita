@@ -5,9 +5,12 @@ import barrera.*
 import movil.*
 import display.*
 import miposicion.*
+import bar.*
+import alerta.*
+import powerup.*
 object utils {
 	const cellSize = 2	
-
+	var property iniciado = false
 	method cellSize() = cellSize
 	
 	method random(a,b){ return (a..b).anyOne()}
@@ -19,6 +22,41 @@ object utils {
 	/*Altura sin barra superior*/
 	method alturaJuego() = game.height() - self.getPixel(80)
 	
+	method iniciarJuego()
+	{
+		iniciado = true
+		//game.boardGround("background.png") no tiene efecto.
+		
+		// Metodos que inicializan las variables de los objetos player y covid
+		// (necesario porque ambos heredan de la clase abstracta Movil, 
+		// que tiene el metodo Mover() implementado, y de manera abstracta
+		// los metodos actualizarImagen() e init()
+		// con sesto evitamos repetir el movimiento de los jugadores
+		
+		player.init()
+		covid.init()
+		gestorJugadores.agregarJugador(player)
+		gestorJugadores.agregarJugador(covid)
+		//game.addVisual(barrera)
+		game.addVisual(alerta)
+		
+		// ver bar.wlk, esta es la barra de covid por proximidad
+		covidBar.mostrar()
+		
+		//mostro las barreras
+		barrera.init()
+		//self.onTicks()
+	}
+	method onTicks()
+	{
+		game.onTick(10, 	"mover pjs", 	{ gestorJugadores.moverJugadores() })
+		game.onTick(1000, 	"timer", 		{ player.avanzarTimer() })
+		game.onTick(50, 	"covidBar", 	{ covidBar.actualizar(covid.obtenerDistancia(player)) })
+		game.onTick(50,		"alerta", 		{ alerta.actualizar() })
+		game.onTick(5000,	"powerUps",		{ gestorPowerUps.aparecer() })
+		game.onTick(100,	"colisionPower",{ gestorPowerUps.verificarColisiones() })
+		game.onTick(40, 	"zonabarreras", { gestorJugadores.colisionesJugadores() })
+	}
 	method configTeclas()
 	{
 		keyboard.w().onPressDo {player.cambiarDireccion(arriba)}
@@ -38,8 +76,7 @@ object utils {
 		//cierro el juego con P, buscar escape?
 		keyboard.p().onPressDo {game.stop()}
 		
-		keyboard.y().onPressDo {barrera.cambiar()}
-		keyboard.u().onPressDo {barrera.eliminarComponentes()}
+		keyboard.space().onPressDo {barrera.cambiar()}
 		keyboard.t().onPressDo {player.timer(false)}
 	}
 	/* Convierto un string en una lista con sus caracteres*/
@@ -62,4 +99,5 @@ object utils {
 		
 		game.schedule(2000, {display.init() })
 	}
+	
 }

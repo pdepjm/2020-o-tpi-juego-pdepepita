@@ -14,7 +14,12 @@ class Movil{
 	var property alturaImg
 	var property multiplicadorRebote = 3
 	var property enZonaDeBarreras = false
+	var property powerUpsPosibles
+	var property posicionPowerUpX
+	var property posicionPowerUpY = utils.getPixel(586)
 	const powerUps = []
+	
+	var desplazamiento = 0
 	method init()
 	
 	method actualizarImagen()
@@ -62,15 +67,44 @@ class Movil{
 		if(self.verificarDireccion(dir))
 			direccion = dir
 	}
-	method actualizarBarraSuperior(){} //implementar imagenes en barrera superior
-	
-	method agregarPowerUp(powerUp)
+	method agregarEn(powerUp)
 	{
-		powerUps.add(powerUp)
-		console.println("agarro "+ powerUp.toString())
-		self.actualizarBarraSuperior()
-		utils.mostrarMensaje("powerup "+powerUp.toString())
-		//agregar a display
+		powerUp.position().x(desplazamiento)
+		powerUp.position().y(posicionPowerUpY)
+		powerUp.init()
+		game.addVisual(powerUp)
+		desplazamiento+=utils.getPixel(40);
+	}
+	method quitarPower(powerUp)
+	{
+		if(game.hasVisual(powerUp)) game.removeVisual(powerUp)
+	}
+	method actualizarBarraSuperior(){
+		desplazamiento = posicionPowerUpX;
+		
+		if(powerUps.size() > 0)
+			powerUps.forEach{ powerUp => self.quitarPower(powerUp)}
+		
+		powerUps.forEach{ powerUp => self.agregarEn(powerUp)}
+
+	} //implementar imagenes en barrera superior
+	
+	method noTiene(powerUp)	= not powerUps.contains(powerUp)
+	method agregarPowerUp()
+	{
+		if(powerUps.size() < 4)
+		{
+			const powerUp = powerUpsPosibles.anyOne()
+			
+			if(self.noTiene(powerUp))
+			{
+				powerUps.add(powerUp)
+				console.println("agarro "+ powerUp.toString())
+				self.actualizarBarraSuperior()
+				utils.mostrarMensaje("powerup "+powerUp.toString())
+				//agregar a display
+			}
+		}
 	}
 	
 	method usarPowerUp()
@@ -78,8 +112,10 @@ class Movil{
 		if(powerUps.size() > 0)
 		{
 			const powerUp = powerUps.first()
+			self.quitarPower(powerUp)
 			powerUps.remove(powerUp)
 			console.println("uso "+ powerUp.toString())
+			
 			utils.mostrarMensaje("activado "+powerUp.toString())
 			powerUp.usar(self)			
 		}

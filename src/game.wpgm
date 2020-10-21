@@ -11,8 +11,10 @@ import movil.*
 import powerup.*
 
 program game {
+
 	game.title("PdePepita")
 	game.boardGround("background.png")
+	//game.boardGround("controles.png")
 	/*
 	cellSize es el tamaño de cada posicion en la pantalla, cuanto mas chico mas fluido va a ser,
 	pero como es bastante ineficiente consume mucho mas recursos con grillas grandes
@@ -22,34 +24,11 @@ program game {
 	game.width(utils.getPixel(580)) 
 	game.height(utils.getPixel(660))
 	
-	// Metodos que inicializan las variables de los objetos player y covid
-	// (necesario porque ambos heredan de la clase abstracta Movil, 
-	// que tiene el metodo Mover() implementado, y de manera abstracta
-	// los metodos actualizarImagen() e init()
-	// con esto evitamos repetir el movimiento de los jugadores
-	player.init()
-	covid.init()
-	gestorJugadores.agregarJugador(player)
-	gestorJugadores.agregarJugador(covid)
-	//game.addVisual(barrera)
-	game.addVisual(alerta)
-	
-	// ver bar.wlk, esta es la barra de covid por proximidad
-	covidBar.mostrar()
-	
-	//mostro las barreras
-	barrera.init()
-	
-	game.onTick(10, 	"mover pjs", 	{ gestorJugadores.moverJugadores() })
-	game.onTick(1000, 	"timer", 		{ player.avanzarTimer() })
-	game.onTick(50, 	"covidBar", 	{ covidBar.actualizar(covid.obtenerDistancia(player)) })
-	game.onTick(50,		"alerta", 		{ alerta.actualizar() })
-	game.onTick(5000,	"powerUps",		{ gestorPowerUps.aparecer() })
-	game.onTick(100,	"colisionPower",{ gestorPowerUps.verificarColisiones() })
-	game.onTick(40, 	"zonabarreras", { gestorJugadores.colisionesJugadores() })
-	
-	
+	utils.onTicks()
 	utils.configTeclas()
 	
+	keyboard.enter().onPressDo {utils.iniciarJuego()}
+	
 	game.start()
+	
 }

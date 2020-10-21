@@ -12,11 +12,14 @@ class PowerUp {
 	var property anchoImg = utils.getPixel(50)
 	var property alturaImg = utils.getPixel(54)
 	method usar(jugador)
+	
+	method init()
 }
 object oculto inherits PowerUp
 {
 	override method usar(jugador)
 	{}
+	override method init(){}
 }
 object extensionTiempo inherits PowerUp
 {
@@ -26,6 +29,10 @@ object extensionTiempo inherits PowerUp
 		const actual = display.valor()
 		display.valor(actual + 5)
 		display.mostrarNum(display.valor())
+	}
+	override method init()
+	{
+		self.image("barbijo.png")	
 	}
 }
 object reduccionTiempo inherits PowerUp
@@ -37,16 +44,36 @@ object reduccionTiempo inherits PowerUp
 		display.valor(actual - 5)
 		display.mostrarNum(display.valor())
 	}
+	override method init()
+	{
+		self.image("barbijo.png")	
+	}
 }
-object mutarVirus inherits PowerUp
+object acelerarContagio inherits PowerUp
 {
 	override method usar(jugador)
 	{
 		covidBar.multiplicadorMutacion(0.08)
 		game.schedule(3000, {covidBar.multiplicadorMutacion(0.05)})
 	}
+	override method init()
+	{
+		self.image("barbijo.png")	
+	}
 }
-
+object aumentarRango inherits PowerUp
+{
+	override method usar(jugador)
+	{
+		const distancia = covidBar.distanciaDeContagio()
+		covidBar.distanciaDeContagio(distancia + 30)
+		game.schedule(3000, {covidBar.distanciaDeContagio(distancia)})
+	}
+	override method init()
+	{
+		self.image("barbijo.png")	
+	}
+}
 object aumentarVelocidad inherits PowerUp
 {
 	override method usar(jugador)
@@ -55,9 +82,17 @@ object aumentarVelocidad inherits PowerUp
 		jugador.velocidad(valorPrevio + 1)
 		game.schedule(3000, {jugador.velocidad(valorPrevio)})
 	}
+	override method init()
+	{
+		self.image("pepita.png")	
+	}
 }
 object barbijo inherits PowerUp
-{
+{	
+	override method init()
+	{
+		self.image("barbijo.png")	
+	}
 	override method usar(jugador)
 	{
 		covidBar.puedeContagiar(false)
@@ -71,6 +106,10 @@ object alcoholEnGel inherits PowerUp
 	{
 		covidBar.valor(0)
 	}
+	override method init()
+	{
+		self.image("platBlock.png")	
+	}
 }
 
 object separador inherits PowerUp
@@ -79,13 +118,14 @@ object separador inherits PowerUp
 	{
 		gestorJugadores.separarJugadores()		
 	}
+	override method init()
+	{
+		self.image("muro.png")	
+	}
 }
 
 object gestorPowerUps
 {
-	//posibles, no asignados
-	const playerPowerUps = [reduccionTiempo, aumentarVelocidad, barbijo, alcoholEnGel, separador]
-	const covidPowerUps = [extensionTiempo, mutarVirus, aumentarVelocidad]
 	var mostrando = false
 	
 	//Muestra el powerup (?) en pantalla
@@ -113,16 +153,14 @@ object gestorPowerUps
 			
 			if(encontrado)
 			{
-				if(jugador.equals(player))
-					jugador.agregarPowerUp(playerPowerUps.anyOne())
-				else if(jugador.equals(covid))
-					jugador.agregarPowerUp(covidPowerUps.anyOne())	
+				jugador.agregarPowerUp()
 				
 				self.eliminar()
 			}
 		}
 		
 	}
+	
 	//algoritmo Axis-Aligned Bounding Box
 	method colisiono(jugador) = 
 		oculto.position().x() < jugador.position().x() + jugador.anchoImg() and
