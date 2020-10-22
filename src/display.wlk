@@ -97,3 +97,8 @@ class Display {
 
 }
 
+object background 
+{
+	var property image = "controles.png"
+	var property position = new MiPosicion(x = 0, y = 0)
+}

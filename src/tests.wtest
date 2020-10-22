@@ -14,8 +14,8 @@ describe "tests de movil"
 	{
 		game.cellSize(utils.cellSize())
 		//tamaño en celdas
-		game.width(utils.getPixel(700)) 
-		game.height(utils.getPixel(700))
+		game.width(utils.getPixel(580)) 
+		game.height(utils.getPixel(660))
 		player.init() 
 		game.addVisual(player)
 	}

@@ -28,8 +28,13 @@ class Movil{
 		direccion.mover(self)
 	}
 	
-	method obtenerDistancia(pj) = self.position().distance(pj.position())
-	
+	method obtenerDistancia(pj) 
+	{
+		if(utils.juegoIniciado())
+			return self.position().distance(pj.position())
+		else 
+			return -1
+	}
 	method verificarZonaDeBarreras()
 	{ 
 		const previo = enZonaDeBarreras
@@ -231,6 +236,8 @@ object gestorJugadores
 		jugadores.add(jugador)
 		game.addVisual(jugador)
 	}
+	//if(utils.juegoIniciado()) 
+	
 	method moverJugadores(){ jugadores.forEach{jugador=> jugador.mover()} }
 	method colisionesJugadores() {jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}}
 	/* esto se llama cuando ocurre un cambio de orientacion de barreras */
@@ -254,6 +261,12 @@ object gestorJugadores
 		player.position().x(game.width() - player.anchoImg())
 		
 		jugadores.forEach{jugador => jugador.direccion(quieto)}
+	}
+	/*powerup acercar */
+	method acercarJugadores()
+	{
+		covid.position().x(player.position().x())
+		covid.position().y(player.position().y())
 	}
 	
 }

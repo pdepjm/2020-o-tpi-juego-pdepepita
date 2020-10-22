@@ -27,17 +27,21 @@ object alerta {
 	}
 	method actualizar()
 	{
-		if(alertando){
-			if(aumentando)
-				opacidadAlerta.aumentar(valorMaximo)
+		//if(utils.juegoIniciado())
+		//{
+			if(alertando){
+				if(aumentando)
+					opacidadAlerta.aumentar(valorMaximo)
+				else
+					opacidadAlerta.disminuir(valorMinimo)
+				
+				image = opacidadAlerta.img()
+	
+			}
 			else
-				opacidadAlerta.disminuir(valorMinimo)
-			
-			image = opacidadAlerta.img()
-
-		}
-		else
-			image = "alerta0.png"
+				image = "alerta0.png"
+				
+		//}
 	}
 	
 	

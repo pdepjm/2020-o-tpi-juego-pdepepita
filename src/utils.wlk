@@ -10,7 +10,7 @@ import alerta.*
 import powerup.*
 object utils {
 	const cellSize = 2	
-	var property iniciado = false
+	var property juegoIniciado = false
 	method cellSize() = cellSize
 	
 	method random(a,b){ return (a..b).anyOne()}
@@ -24,7 +24,8 @@ object utils {
 	
 	method iniciarJuego()
 	{
-		iniciado = true
+		juegoIniciado = true
+		background.image("background.png")
 		//game.boardGround("background.png") no tiene efecto.
 		
 		// Metodos que inicializan las variables de los objetos player y covid
@@ -53,7 +54,7 @@ object utils {
 		game.onTick(1000, 	"timer", 		{ player.avanzarTimer() })
 		game.onTick(50, 	"covidBar", 	{ covidBar.actualizar(covid.obtenerDistancia(player)) })
 		game.onTick(50,		"alerta", 		{ alerta.actualizar() })
-		game.onTick(5000,	"powerUps",		{ gestorPowerUps.aparecer() })
+		game.onTick(8000,	"powerUps",		{ gestorPowerUps.aparecer() })
 		game.onTick(100,	"colisionPower",{ gestorPowerUps.verificarColisiones() })
 		game.onTick(40, 	"zonabarreras", { gestorJugadores.colisionesJugadores() })
 	}

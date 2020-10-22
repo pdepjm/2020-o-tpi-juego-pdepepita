@@ -18,25 +18,28 @@ object covidBar
 	method actualizar(distancia)
 	{
 		//valor = val
-		
-		if(distancia < distanciaDeContagio)
+		if(utils.juegoIniciado())
 		{
-			/* powerup barbijo */
-			if(puedeContagiar){
-				alerta.iniciarAlerta()
-				
-				valor += ((100-distancia)*multiplicadorMutacion)
-				
-				if(valor >= 100)
-				{
-					valor = 100	
-					player.finalizarJuego(perdedor)
+			if(distancia < distanciaDeContagio)
+			{
+				/* powerup barbijo */
+				if(puedeContagiar){
+					alerta.iniciarAlerta()
+					
+					valor += ((100-distancia)*multiplicadorMutacion)
+					
+					if(valor >= 100)
+					{
+						valor = 100	
+						player.finalizarJuego(perdedor)
+					}
+					
 				}
-				
 			}
+			else
+				alerta.finalizarAlerta()
+				
 		}
-		else
-			alerta.finalizarAlerta()
 		//alerta.alertando(false)
 		//conversion para mover el rectangulo rojo dependiendo del valor [0-100]
 		//valor deberia ser 0-100

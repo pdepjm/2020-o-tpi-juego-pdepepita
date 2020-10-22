@@ -14,17 +14,17 @@ object player inherits Movil{
 	var property estado = enJuego
 	var property displayTimer 
 	var property timer = true
-	
+	var frame = 1
 	override method init()
 	{
-		self.image("nave_arriba.png")
+		self.image("amiguito_arriba1.png")
 		self.anchoImg(utils.getPixel(40))
 		self.alturaImg(utils.getPixel(40))
 		
 		self.position(new MiPosicion(x = game.width() - self.anchoImg(), y = 0))
 		self.direccion(quieto)
 		self.velocidad(3)
-		self.powerUpsPosibles([reduccionTiempo, aumentarVelocidad, barbijo, alcoholEnGel, separador])
+		self.powerUpsPosibles([reduccionTiempo, aumentarVelocidadPlayer, barbijo, alcoholEnGel, separador])
 		self.posicionPowerUpX(utils.getPixel(380))
 		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(90), y = game.height() - utils.getPixel(30)))
 		displayTimer.mostrarNum(30) //Arrancar timer en 30s
@@ -32,22 +32,31 @@ object player inherits Movil{
 	}
 	override method actualizarImagen()
 	{
-		self.image("nave_" + self.direccion().toString() + ".png")
+		if(frame < 4)
+			frame++
+		else
+			frame = 1
+		
+		self.image("amiguito_" + self.direccion().toString() + frame.toString()+ ".png")
 	}
 
 	method enJuego() = estado == enJuego
 	
 	method avanzarTimer()
 	{
-		var val = displayTimer.valor()
-		if(timer)
+		if(utils.juegoIniciado()) 
 		{
-			if(val > 0){
-				val -=1
-				displayTimer.mostrarNum(val)
+			var val = displayTimer.valor()
+			if(timer)
+			{
+				if(val > 0){
+					val -=1
+					displayTimer.mostrarNum(val)
+				}
+				else
+					self.finalizarJuego(ganador)
 			}
-			else
-				self.finalizarJuego(ganador)
+		
 		}
 	}
 	method finalizarJuego(est)
