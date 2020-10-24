@@ -15,7 +15,7 @@ class Display {
 	var property posicionRelativa = game.at(0,0)
 	//Para lectura del valor numerico (timer)
 	var property valor = 0
-	var property separacion = utils.getPixel(16)
+	var property separacion = utils.getPixel(18) // toco aca era 16
 	var property caracteres = [] //Objetos de clase caracter
 	
 	method init()
