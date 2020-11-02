@@ -56,7 +56,17 @@ object utils {
 		game.onTick(50,		"alerta", 		{ alerta.actualizar() })
 		game.onTick(8000,	"cajaSorpresa",	{ cajaSorpresa.aparecer() })
 		game.onTick(100,	"colisionCaja", { cajaSorpresa.verificarColisiones() })
-		game.onTick(40, 	"zonabarreras", { gestorJugadores.colisionesJugadores() })
+		game.onTick(40, 	"zonaBarreras", { gestorJugadores.colisionesJugadores() })
+	}
+	method removerOnTicks()
+	{
+		game.removeTickEvent("mover pjs")
+		game.removeTickEvent("timer")
+		game.removeTickEvent("covidBar")
+		game.removeTickEvent("cajaSorpresa")
+		game.removeTickEvent("colisionCaja")
+		game.removeTickEvent("zonaBarreras")
+		
 	}
 	method configTeclas()
 	{

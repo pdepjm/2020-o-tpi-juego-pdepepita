@@ -66,10 +66,7 @@ object player inherits Movil{
 		game.removeVisual(covid)
 		barrera.eliminarComponentes()
 		estado.mostrarCartel()
-		game.removeTickEvent("timer")
-		game.removeTickEvent("mover pjs")
-		game.removeTickEvent("covidBar")
-		game.removeTickEvent("powerUps")
+		utils.removerOnTicks()
 	}
 }
 
