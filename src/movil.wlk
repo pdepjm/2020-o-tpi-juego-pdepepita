@@ -126,103 +126,110 @@ class Movil{
 		}
 	}
 }
-
-object derecha
+class Direccion
 {
 	method mover(movil)
 	{
-		movil.actualizarImagen()
+		movil.actualizarImagen() 
 		movil.orientacion(movil.direccion())
-		if(movil.position().x() <= game.width()- movil.velocidad() - movil.anchoImg())
-		{	
-			movil.position().right(movil.velocidad())
-		}
-		else{
-			movil.position().x(game.width() - movil.anchoImg())
-			movil.direccion(quieto)
-		}
+		if(self.noTocoElBorde(movil))
+			self.cambiarPosicion(movil)
+		else
+			self.frenarEnElBorde(movil)
 	}
+	method noTocoElBorde(movil)
+	method cambiarPosicion(movil)
+	method frenarEnElBorde(movil)
 	method rebotar(movil)
+}
+object derecha inherits Direccion
+{
+	override method noTocoElBorde(movil) = 
+		movil.position().x() <= game.width()- movil.velocidad() - movil.anchoImg()
+	
+	override method cambiarPosicion(movil) 
+	{
+		movil.position().right(movil.velocidad())
+	}
+	override method frenarEnElBorde(movil)
+	{
+		movil.position().x(game.width() - movil.anchoImg())
+		movil.direccion(quieto)
+	}
+	override method rebotar(movil)
 	{
 		movil.position().left(movil.velocidad()* movil.multiplicadorRebote())
 		movil.direccion(quieto)	
 	}
 }
 
-object izquierda
+object izquierda inherits Direccion
 {
-	method mover(movil)
+	override method noTocoElBorde(movil) = 
+		movil.position().x() >= movil.velocidad()
+	override method cambiarPosicion(movil)
 	{
-		movil.actualizarImagen()
-		movil.orientacion(movil.direccion())
-		if(movil.position().x() >= movil.velocidad()){
-			movil.position().left(movil.velocidad())
-			
-		}
-		else{
-			movil.position().x(0)
-			movil.direccion(quieto)
-		}
+		movil.position().left(movil.velocidad())
 	}
-	method rebotar(movil)
+	override method frenarEnElBorde(movil)
+	{
+		movil.position().x(0)
+		movil.direccion(quieto)
+	}
+	override method rebotar(movil)
 	{
 		movil.position().right(movil.velocidad()*movil.multiplicadorRebote())
 		movil.direccion(quieto)	
 	}
 }
 
-object arriba
+object arriba inherits Direccion
 {
-	method mover(movil)
+	override method noTocoElBorde(movil) = 
+		movil.position().y() <= utils.alturaJuego() - movil.velocidad() - movil.alturaImg()
+	override method cambiarPosicion(movil)
 	{
-		movil.actualizarImagen()
-		movil.orientacion(movil.direccion())
-		if(movil.position().y() <= utils.alturaJuego() - movil.velocidad() - movil.alturaImg()){
-			movil.position().up(movil.velocidad())					
-		}
-		else{
-			movil.position().y(utils.alturaJuego() - movil.alturaImg())
-			movil.direccion(quieto)
-		}
+		movil.position().up(movil.velocidad())		
 	}
-	
-	method rebotar(movil)
+	override method frenarEnElBorde(movil)
+	{
+		movil.position().y(utils.alturaJuego() - movil.alturaImg())
+		movil.direccion(quieto)
+	}
+	override method rebotar(movil)
 	{
 		movil.position().down(movil.velocidad()*movil.multiplicadorRebote())
 		movil.direccion(quieto)	
 	}
 }
 
-object abajo
+object abajo inherits Direccion
 {
-	method mover(movil)
+	override method noTocoElBorde(movil) = 
+		movil.position().y() >= movil.velocidad()
+	override method cambiarPosicion(movil)
 	{
-		movil.actualizarImagen()
-		movil.orientacion(movil.direccion())
-		if(movil.position().y() >= movil.velocidad()){
-			movil.position().down(movil.velocidad())
-			
-		}
-		else{
-			movil.position().y(0)
-			movil.direccion(quieto)
-		}
+		movil.position().down(movil.velocidad())
 	}
-	
-	method rebotar(movil)
+	override method frenarEnElBorde(movil)
+	{
+		movil.position().y(0)
+		movil.direccion(quieto)
+	}
+	override method rebotar(movil)
 	{
 		movil.position().up(movil.velocidad()*movil.multiplicadorRebote())
 		movil.direccion(quieto)
 	}
-	
 }
 
-object quieto
+object quieto inherits Direccion
 {
-	//validar colision con barrera
-	method mover(movil){} //para cumplir Polimorfismo
-	
-	method rebotar(movil)
+	override method mover(movil) {}
+	override method noTocoElBorde(movil) = true
+	override method cambiarPosicion(movil) {}
+	override method frenarEnElBorde(movil) {}
+	override method rebotar(movil)
 	{
 		movil.orientacion().rebotar(movil)
 	}

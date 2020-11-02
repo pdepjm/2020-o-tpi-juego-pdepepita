@@ -37,7 +37,7 @@ object player inherits Movil{
 		else
 			frame = 1
 		
-		self.image("amiguito_" + self.direccion().toString() + frame.toString()+ ".png")
+		self.image("amiguito_" + direccion.toString() + frame.toString()+ ".png")
 	}
 
 	method enJuego() = estado == enJuego
