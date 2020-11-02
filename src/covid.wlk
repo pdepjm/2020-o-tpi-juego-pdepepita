@@ -24,7 +24,7 @@ object covid inherits Movil{
 	override method actualizarImagen()
 	{
 		//self.image("covid_" + self.direccion().toString() + ".png")
-		self.image("covid.png")
+		self.image("covid0.png")
 	}
 	
 	

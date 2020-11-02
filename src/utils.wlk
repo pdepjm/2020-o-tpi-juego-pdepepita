@@ -54,8 +54,8 @@ object utils {
 		game.onTick(1000, 	"timer", 		{ player.avanzarTimer() })
 		game.onTick(50, 	"covidBar", 	{ covidBar.actualizar(covid.obtenerDistancia(player)) })
 		game.onTick(50,		"alerta", 		{ alerta.actualizar() })
-		game.onTick(8000,	"powerUps",		{ gestorPowerUps.aparecer() })
-		game.onTick(100,	"colisionPower",{ gestorPowerUps.verificarColisiones() })
+		game.onTick(8000,	"cajaSorpresa",	{ cajaSorpresa.aparecer() })
+		game.onTick(100,	"colisionCaja", { cajaSorpresa.verificarColisiones() })
 		game.onTick(40, 	"zonabarreras", { gestorJugadores.colisionesJugadores() })
 	}
 	method configTeclas()

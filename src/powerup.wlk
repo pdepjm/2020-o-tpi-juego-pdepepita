@@ -9,23 +9,13 @@ import covid.*
 class PowerUp {
 
 	var property position = new MiPosicion(x = 0, y = 0)
-	var property image = "powerOculto.png"
+	var property image
 	var property anchoImg = utils.getPixel(40)
 	var property alturaImg = utils.getPixel(40)
 
 	method usar(jugador)
 
 	method init()
-
-}
-
-object oculto inherits PowerUp {
-
-	override method usar(jugador) {
-	}
-
-	override method init() {
-	}
 
 }
 
@@ -163,31 +153,35 @@ object separador inherits PowerUp {
 
 }
 
-object gestorPowerUps {
+object cajaSorpresa {
 
-	var mostrando = false
-
+//	var mostrando = false
+	var property position = new MiPosicion(x = 0, y = 0)
+	var property image = "powerOculto.png"
+	const anchoImg = utils.getPixel(40)
+	const alturaImg = utils.getPixel(40)
+	
 	// Muestra el powerup (?) en pantalla
 	method aparecer() {
 		if (utils.juegoIniciado()) {
-			oculto.position().x(utils.random(0, game.width() - oculto.anchoImg()))
-			oculto.position().y(utils.random(0, game.width() - oculto.alturaImg()))
-			mostrando = true
-			game.addVisual(oculto)
-			game.schedule(5000, { if (mostrando) self.eliminar()
+			position.x(utils.random(0, game.width() - anchoImg))
+			position.y(utils.random(0, game.width() - alturaImg))
+//			mostrando = true
+			game.addVisual(self)
+			game.schedule(5000, { if (game.hasVisual(self)) self.eliminar()
 			})
 		}
 	}
 
 	method eliminar() {
-		mostrando = false
-		game.removeVisual(oculto)
+		if(game.hasVisual(self))
+			game.removeVisual(self)
 	}
 
 	// verifica la colision con los jugadores si se esta mostrando
 	method verificarColisiones() {
 		// if(utils.juegoIniciado())
-		if (mostrando) {
+		if (game.hasVisual(self)) {
 			// no quiero un error(excepcion) si no encuentra colision, por eso findOrElse
 			var encontrado = true
 			const jugador = gestorJugadores.jugadores().findOrElse({ jugador => self.colisiono(jugador) }, { encontrado = false })
@@ -199,7 +193,11 @@ object gestorPowerUps {
 	}
 
 	// algoritmo Axis-Aligned Bounding Box
-	method colisiono(jugador) = oculto.position().x() < jugador.position().x() + jugador.anchoImg() and jugador.position().x() < oculto.position().x() + oculto.anchoImg() and oculto.position().y() < jugador.position().y() + jugador.alturaImg() and jugador.position().y() < oculto.position().y() + oculto.alturaImg()
+	method colisiono(jugador) = 
+		position.x() < jugador.position().x() + jugador.anchoImg() 	and 
+		jugador.position().x() < position.x() + anchoImg			and 
+		position.y() < jugador.position().y() + jugador.alturaImg() and 
+		jugador.position().y() < position.y() + alturaImg
 
 }
 
