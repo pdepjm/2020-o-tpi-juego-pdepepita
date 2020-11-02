@@ -9,16 +9,16 @@ object covid inherits Movil{
 	
 	override method init()
 	{
-		self.image("covid.png")
-		self.anchoImg(utils.getPixel(40))
-		self.alturaImg(utils.getPixel(40))
+		image = "covid.png"
+		anchoImg = utils.getPixel(40)
+		alturaImg = utils.getPixel(40)
 		
-		//self.powerUpsPosibles([extensionTiempo, acelerarContagio, aumentarVelocidadCovid, aumentarRango, acercar])
-		self.powerUpsPosibles([acercar])
-		self.posicionPowerUpX(utils.getPixel(50))
-		self.position(new MiPosicion(x = 0, y = utils.alturaJuego() - self.alturaImg()))
-		self.direccion(quieto)
-		self.velocidad(2)
+		powerUpsPosibles = [extensionTiempo, acelerarContagio, aumentarVelocidadCovid, aumentarRango, acercar]
+		posicionPowerUpX = [utils.getPixel(50), utils.getPixel(90), utils.getPixel(130), utils.getPixel(170)]
+		
+		position = new MiPosicion(x = 0, y = utils.alturaJuego() - self.alturaImg())
+		direccion = quieto
+		velocidad = 2
 	}
 	
 	override method actualizarImagen()

@@ -15,8 +15,8 @@ class Movil{
 	var property multiplicadorRebote = 3
 	var property enZonaDeBarreras = false
 	var property powerUpsPosibles
-	var property posicionPowerUpX
-	var property posicionPowerUpY = utils.getPixel(586)
+	var posicionPowerUpX
+	var posicionPowerUpY = utils.getPixel(586)
 	const powerUps = []
 	
 	var desplazamiento = 0
@@ -72,25 +72,26 @@ class Movil{
 		if(self.verificarDireccion(dir))
 			direccion = dir
 	}
-	method agregarEn(powerUp)
+	method agregarEn(powerUp, sector)
 	{
-		powerUp.position().x(desplazamiento)
+		var x = posicionPowerUpX.get(sector)
+		powerUp.position().x(x)
 		powerUp.position().y(posicionPowerUpY)
 		powerUp.init()
 		game.addVisual(powerUp)
-		desplazamiento+=utils.getPixel(40);
+//		desplazamiento+=utils.getPixel(40);
 	}
 	method quitarPower(powerUp)
 	{
 		if(game.hasVisual(powerUp)) game.removeVisual(powerUp)
 	}
 	method actualizarBarraSuperior(){
-		desplazamiento = posicionPowerUpX;
+		//desplazamiento = posicionPowerUpX;
 		
 		if(powerUps.size() > 0)
 			powerUps.forEach{ powerUp => self.quitarPower(powerUp)}
-		
-		powerUps.forEach{ powerUp => self.agregarEn(powerUp)}
+		var sector = 0
+		powerUps.forEach{ powerUp => self.agregarEn(powerUp,sector) sector++}
 
 	} //implementar imagenes en barrera superior
 	
@@ -120,7 +121,7 @@ class Movil{
 			self.quitarPower(powerUp)
 			powerUps.remove(powerUp)
 			console.println("uso "+ powerUp.toString())
-			
+			self.actualizarBarraSuperior()
 			utils.mostrarMensaje("activado "+powerUp.toString())
 			powerUp.usar(self)			
 		}

@@ -17,15 +17,17 @@ object player inherits Movil{
 	var frame = 1
 	override method init()
 	{
-		self.image("amiguito_arriba1.png")
-		self.anchoImg(utils.getPixel(40))
-		self.alturaImg(utils.getPixel(40))
+		image = "amiguito_arriba1.png"
+		anchoImg = utils.getPixel(40)
+		alturaImg = utils.getPixel(40)
 		
-		self.position(new MiPosicion(x = game.width() - self.anchoImg(), y = 0))
-		self.direccion(quieto)
-		self.velocidad(3)
-		self.powerUpsPosibles([reduccionTiempo, aumentarVelocidadPlayer, barbijo, alcoholEnGel, separador])
-		self.posicionPowerUpX(utils.getPixel(380))
+		position = new MiPosicion(x = game.width() - self.anchoImg(), y = 0)
+		direccion = quieto
+		velocidad = 3
+		powerUpsPosibles = [reduccionTiempo, aumentarVelocidadPlayer, barbijo, alcoholEnGel, separador]
+		
+		posicionPowerUpX = [utils.getPixel(380), utils.getPixel(420), utils.getPixel(460), utils.getPixel(500)]
+		
 		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(90), y = game.height() - utils.getPixel(30)))
 		displayTimer.mostrarNum(30) //Arrancar timer en 30s
 	
