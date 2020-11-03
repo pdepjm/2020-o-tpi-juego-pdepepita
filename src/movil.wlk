@@ -16,10 +16,10 @@ class Movil{
 	var property enZonaDeBarreras = false
 	var property powerUpsPosibles
 	var posicionPowerUpX
-	var posicionPowerUpY = utils.getPixel(586)
+	const posicionPowerUpY = utils.getPixel(586)
 	const powerUps = []
 	
-	var desplazamiento = 0
+	method powerUps() = powerUps
 	method init()
 	
 	method actualizarImagen()
@@ -107,7 +107,7 @@ class Movil{
 				powerUps.add(powerUp)
 				console.println("agarro "+ powerUp.toString())
 				self.actualizarBarraSuperior()
-				utils.mostrarMensaje("powerup "+powerUp.toString())
+//				utils.mostrarMensaje("powerup "+powerUp.toString())
 				//agregar a display
 			}
 		}
@@ -122,7 +122,7 @@ class Movil{
 			powerUps.remove(powerUp)
 			console.println("uso "+ powerUp.toString())
 			self.actualizarBarraSuperior()
-			utils.mostrarMensaje("activado "+powerUp.toString())
+//			utils.mostrarMensaje("activado "+powerUp.toString())
 			powerUp.usar(self)			
 		}
 	}

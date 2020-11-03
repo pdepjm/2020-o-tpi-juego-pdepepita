@@ -7,18 +7,34 @@ import display.*
 import miposicion.*
 import barrera.*
 import bar.*
+import powerup.*
 
-describe "tests de movil"
+describe "tests"
 {
-	fixture
+	fixture 
 	{
 		game.cellSize(utils.cellSize())
 		//tamaño en celdas
 		game.width(utils.getPixel(580)) 
 		game.height(utils.getPixel(660))
-		player.init() 
-		game.addVisual(player)
+		
+		player.init()
+		covid.init()
+		gestorJugadores.agregarJugador(player)
+		gestorJugadores.agregarJugador(covid)
+		
+		barrera.init()
+		game.addVisual(barrera)
+
+		//solo para que los test corran
+		game.onTick(5000, "mover pjs", {})
+		game.onTick(5000, "timer", { })
+		game.onTick(5000, "covidBar", {})
+		
+		player.displayTimer().valor(2)
+		utils.juegoIniciado(true)
 	}
+/**TESTS DE MOVIL*/
 	test "borde derecho"
 	{
 		player.direccion(derecha)
@@ -48,34 +64,51 @@ describe "tests de movil"
 		player.position().y(game.height()-player.alturaImg())
 		player.mover()
 		
-		assert.equals(game.height()-player.alturaImg(), player.position().x())
+		assert.equals(utils.alturaJuego()-player.alturaImg(), player.position().x())
 	}
-}
-
-describe "tests de player"
-{
-	const display = new Display(position = new MiPosicion(x = game.width() - utils.getPixel(120), y = game.height() - utils.getPixel(30)))
-	fixture
+	test "zona de barreras"
 	{
-		game.cellSize(utils.cellSize())
-		//tamaño en celdas
-		game.width(utils.getPixel(700)) 
-		game.height(utils.getPixel(700))
-		player.init() 
-		covid.init()
-		game.addVisual(player)
-		game.addVisual(covid)
-		game.addVisual(barrera)
+		assert.notThat(player.enZonaDeBarreras())
+		player.position().x(game.width()/2)
+		player.position().y(game.height()/2)
+		player.verificarZonaDeBarreras()
+		assert.that(player.enZonaDeBarreras())
+	}
+	test "restriccion de direccion por barreras horizontales"
+	{
+		player.direccion(quieto)
+		player.position().x(game.width()/2)
+		player.position().y(game.height()/2)
+		player.verificarZonaDeBarreras()
 		
-		//solo para que los test corran
-		game.onTick(5000, "mover pjs", {})
-		game.onTick(5000, "timer", { })
-		game.onTick(5000, "covidBar", {})
-	
-		
-		display.mostrarNum(2) //Arrancar timer en 2s
+		player.cambiarDireccion(arriba)
+		assert.equals(quieto, player.direccion())
+		player.cambiarDireccion(abajo)
+		assert.equals(quieto, player.direccion())
+		player.cambiarDireccion(izquierda)
+		assert.equals(izquierda, player.direccion())
+		player.cambiarDireccion(derecha)
+		assert.equals(derecha, player.direccion())
 		
 	}
+	test "restriccion de direccion por barreras verticales"
+	{
+		player.direccion(quieto)
+		barrera.cambiar() //empieza horizontal, pasa a vertical
+		player.position().x(game.width()/2)
+		player.position().y(game.height()/2)
+		player.verificarZonaDeBarreras()
+		
+		player.cambiarDireccion(izquierda)
+		assert.equals(quieto, player.direccion())
+		player.cambiarDireccion(derecha)
+		assert.equals(quieto, player.direccion())
+		player.cambiarDireccion(abajo)
+		assert.equals(abajo, player.direccion())
+		player.cambiarDireccion(arriba)
+		assert.equals(arriba, player.direccion())
+	}
+/**TESTS DE PLAYER */
 	test "puede ganar si se termina el tiempo"
 	{
 		// queda 2 seg
@@ -83,32 +116,12 @@ describe "tests de player"
 		// queda 1 seg
 		player.avanzarTimer() 
 		// queda 0 seg
-		player.avanzarTimer() 
+		// tira excepcion por los ontick, pero ocurre despues del cambio de estado
+		assert.throwsException({player.avanzarTimer()})
+		assert.equals(0, player.displayTimer().valor())
 		assert.equals(ganador, player.estado())
 	}
-}
-
-describe "test de covid" //#miedo
-{
-	fixture 
-	{
-		game.cellSize(utils.cellSize())
-		//tamaño en celdas
-		game.width(utils.getPixel(700)) 
-		game.height(utils.getPixel(700))
-		player.init() 
-		covid.init()
-		game.addVisual(player)
-		game.addVisual(covid)
-		game.addVisual(barrera)
-
-		//solo para que los test corran
-		game.onTick(5000, "mover pjs", {})
-		game.onTick(5000, "timer", { })
-		game.onTick(5000, "covidBar", {})
-		
-		
-	}
+/**TESTS DE COVID */
 	test "covid no es contagioso a mas de 100u de distancia"
 	{
 		covidBar.actualizar(covid.obtenerDistancia(player))
@@ -127,10 +140,46 @@ describe "test de covid" //#miedo
 		player.position().x(covid.position().x()+20)
 		player.position().y(covid.position().y())
 		covidBar.valor(97)
-		covidBar.actualizar(covid.obtenerDistancia(player))
+		//tira excepcion por los ontick, pero ocurre despues del cambio de estado
+		assert.throwsException({covidBar.actualizar(covid.obtenerDistancia(player))})
 		assert.equals(100, covidBar.valor())
 		assert.equals(perdedor, player.estado())
 	}
-	
-	
+/**POWERUPS*/
+	test "un jugador puede agarrar un powerup y este es alguno de los que tiene disponibles"
+	{
+		assert.equals(0, player.powerUps().size())
+		
+		cajaSorpresa.aparecer()
+		player.position().x(cajaSorpresa.position().x())
+		player.position().y(cajaSorpresa.position().y())
+		cajaSorpresa.verificarColisiones()
+		
+		assert.equals(1, player.powerUps().size())
+		assert.that(player.powerUpsPosibles().contains(player.powerUps().first()))
+	}
+	test "no puede agarrar mas de 4 powerups unicos"
+	{
+		const range = new Range(start = 1, end = 10)
+		range.forEach{a => player.agregarPowerUp()}
+		//intento agregar 10, verifico que sean 4 powers
+		//puede llegar a ser menos de 4 si se repiten muchos
+		assert.that(player.powerUps().size() <=4)
+		
+		const powers = player.powerUps()
+		//Verifico que todos los powers se encuentran solo 1 vez en la lista
+		assert.that(powers.all{power => powers.occurrencesOf(power) == 1})
+		
+	}
+	test "el jugador puede usar un powerup"
+	{
+		cajaSorpresa.aparecer()
+		player.position().x(cajaSorpresa.position().x())
+		player.position().y(cajaSorpresa.position().y())
+		cajaSorpresa.verificarColisiones()
+		
+		assert.equals(1, player.powerUps().size())
+		player.usarPowerUp()
+		assert.equals(0, player.powerUps().size())
+	}
 }

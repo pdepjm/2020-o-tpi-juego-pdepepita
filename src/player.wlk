@@ -23,7 +23,7 @@ object player inherits Movil{
 		
 		position = new MiPosicion(x = game.width() - self.anchoImg(), y = 0)
 		direccion = quieto
-		velocidad = 3
+		velocidad = 6
 		powerUpsPosibles = [reduccionTiempo, aumentarVelocidadPlayer, barbijo, alcoholEnGel, separador]
 		
 		posicionPowerUpX = [utils.getPixel(380), utils.getPixel(420), utils.getPixel(460), utils.getPixel(500)]

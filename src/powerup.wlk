@@ -91,7 +91,7 @@ object aumentarVelocidadCovid inherits PowerUp
 	override method usar(jugador) 
 	{
 		const valorPrevio = jugador.velocidad()
-		jugador.velocidad(valorPrevio + 1)
+		jugador.velocidad(valorPrevio + 2)
 		game.schedule(3000, { jugador.velocidad(valorPrevio)})
 	}
 	override method init() 
@@ -105,7 +105,7 @@ object aumentarVelocidadPlayer inherits PowerUp
 	override method usar(jugador) 
 	{
 		const valorPrevio = jugador.velocidad()
-		jugador.velocidad(valorPrevio + 1)
+		jugador.velocidad(valorPrevio + 2)
 		game.schedule(3000, { jugador.velocidad(valorPrevio)})
 	}
 	override method init() 

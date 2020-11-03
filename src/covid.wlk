@@ -18,7 +18,7 @@ object covid inherits Movil{
 		
 		position = new MiPosicion(x = 0, y = utils.alturaJuego() - self.alturaImg())
 		direccion = quieto
-		velocidad = 2
+		velocidad = 4
 	}
 	
 	override method actualizarImagen()
