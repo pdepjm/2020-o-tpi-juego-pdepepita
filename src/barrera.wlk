@@ -11,6 +11,7 @@ class ComponenteBarrera
 	var property ancho
 	var property altura
 }
+
 object barrera {
 	var property orientacion = barreraHorizontal
 	var property position = new MiPosicion( x= utils.getPixel(100), y = utils.getPixel(100))
@@ -59,7 +60,11 @@ object barrera {
 		new Range( start = 0, end = maxBarreras -1 ).forEach{indice => orientacion.nuevaBarrera(posicionRelativa, desplazamiento, componentes) }
 	}
 	
-	method mostrarComponentes() { componentes.forEach{componente => game.addVisual(componente)} }
+	method mostrarComponentes() 
+	{ 
+		componentes.forEach{componente => game.addVisual(componente)}
+	}
+	
 	/*los "centros" son los puntos x o y entre barreras*/
 	method obtenerCentroCercano(movil) = orientacion.obtenerCentro(movil) 
 	
@@ -71,6 +76,7 @@ object barreraHorizontal{
 	const ancho = utils.getPixel(380)
 	const altura = utils.getPixel(20)
 	const centros = [] //posicion Y entre cada barrera
+	
 	method nuevaBarrera(posicion, desplazamiento, componentes)
 	{
 		const nuevaPos = new MiPosicion (x = posicion.x(), y = posicion.y())
@@ -78,8 +84,8 @@ object barreraHorizontal{
 		componentes.add(bar)
 		centros.add(posicion.y() + (desplazamiento - altura)/2)
 		posicion.up(desplazamiento)
-		
 	}
+	
 	method centros() = centros
 	
 	method obtenerCentro(movil)
@@ -109,6 +115,7 @@ object barreraVertical{
 	const ancho = utils.getPixel(20)
 	const altura = utils.getPixel(380)
 	const centros = [] //posicion X entre cada barrera
+	
 	method nuevaBarrera(posicion, desplazamiento, componentes)
 	{
 		const nuevaPos = new MiPosicion (x = posicion.x(), y = posicion.y())
@@ -117,6 +124,7 @@ object barreraVertical{
 		centros.add(posicion.x() + (desplazamiento - ancho)/2)
 		posicion.right(desplazamiento)
 	}
+	
 	method centros() = centros
 	
 	method obtenerCentro(movil)

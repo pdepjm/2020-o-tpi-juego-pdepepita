@@ -8,24 +8,29 @@ class MiPosicion
 {
 	var property x
 	var property y
+	
 	//metodos para mover una posicion una cierta cantidad en una direccion
 	method up(cantidad)
 	{
 		y += cantidad
 		
 	}
+	
 	method down(cantidad)
 	{
 		y -= cantidad
 	}
+	
 	method left(cantidad)
 	{
 		x -= cantidad
 	}
+	
 	method right(cantidad)
 	{
 		x += cantidad
 	}
+	
 	//Metodo
 	method distance(position) 
 	{

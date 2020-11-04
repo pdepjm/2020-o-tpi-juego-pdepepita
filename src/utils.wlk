@@ -8,12 +8,17 @@ import miposicion.*
 import bar.*
 import alerta.*
 import powerup.*
-object utils {
+
+object utils 
+{
 	const cellSize = 2	
 	var property juegoIniciado = false
 	method cellSize() = cellSize
 	
-	method random(a,b){ return (a..b).anyOne()}
+	method random(a,b)
+	{ 
+		return (a..b).anyOne()
+	}
 	
 	method getCell(num) = (num * cellSize).truncate(0)
 	
@@ -38,16 +43,18 @@ object utils {
 		covid.init()
 		gestorJugadores.agregarJugador(player)
 		gestorJugadores.agregarJugador(covid)
+		
 		//game.addVisual(barrera)
 		game.addVisual(alerta)
 		
 		// ver bar.wlk, esta es la barra de covid por proximidad
 		covidBar.mostrar()
 		
-		//mostro las barreras
+		//muestro las barreras
 		barrera.init()
 		//self.onTicks()
 	}
+	
 	method onTicks()
 	{
 		game.onTick(25, 	"mover pjs", 	{ gestorJugadores.moverJugadores() })
@@ -58,6 +65,7 @@ object utils {
 		game.onTick(100,	"colisionCaja", { cajaSorpresa.verificarColisiones() })
 		game.onTick(100, 	"zonaBarreras", { gestorJugadores.colisionesJugadores() })
 	}
+	
 	method removerOnTicks()
 	{
 		game.removeTickEvent("mover pjs")
@@ -68,6 +76,7 @@ object utils {
 		game.removeTickEvent("zonaBarreras")
 		
 	}
+	
 	method configTeclas()
 	{
 		keyboard.w().onPressDo {player.cambiarDireccion(arriba)}
@@ -90,6 +99,7 @@ object utils {
 		keyboard.space().onPressDo {barrera.cambiar()}
 		keyboard.t().onPressDo {player.timer(false)}
 	}
+	
 	/* Convierto un string en una lista con sus caracteres*/
 	method stringToCharList(string)
 	{
@@ -99,6 +109,7 @@ object utils {
 		return charList
 	}	
 	/* Muestra un string en la pantalla  */
+	
 	method mostrarMensaje(string)
 	{
 		const display = new Display(position = 

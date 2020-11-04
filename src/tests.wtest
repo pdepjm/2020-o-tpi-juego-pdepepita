@@ -34,6 +34,7 @@ describe "tests"
 		player.displayTimer().valor(2)
 		utils.juegoIniciado(true)
 	}
+
 /**TESTS DE MOVIL*/
 	test "borde derecho"
 	{
@@ -42,6 +43,7 @@ describe "tests"
 		
 		assert.equals(game.width()-player.anchoImg(), player.position().x())
 	}
+	
 	test "borde izquierdo"
 	{
 		player.direccion(izquierda)
@@ -58,6 +60,7 @@ describe "tests"
 		
 		assert.equals(0, player.position().y())
 	}
+	
 	test "borde superior"
 	{
 		player.direccion(arriba)
@@ -66,6 +69,7 @@ describe "tests"
 		
 		assert.equals(utils.alturaJuego()-player.alturaImg(), player.position().x())
 	}
+	
 	test "zona de barreras"
 	{
 		assert.notThat(player.enZonaDeBarreras())
@@ -74,6 +78,7 @@ describe "tests"
 		player.verificarZonaDeBarreras()
 		assert.that(player.enZonaDeBarreras())
 	}
+	
 	test "restriccion de direccion por barreras horizontales"
 	{
 		player.direccion(quieto)
@@ -91,6 +96,7 @@ describe "tests"
 		assert.equals(derecha, player.direccion())
 		
 	}
+	
 	test "restriccion de direccion por barreras verticales"
 	{
 		player.direccion(quieto)
@@ -108,7 +114,9 @@ describe "tests"
 		player.cambiarDireccion(arriba)
 		assert.equals(arriba, player.direccion())
 	}
+	
 /**TESTS DE PLAYER */
+
 	test "puede ganar si se termina el tiempo"
 	{
 		// queda 2 seg
@@ -121,12 +129,14 @@ describe "tests"
 		assert.equals(0, player.displayTimer().valor())
 		assert.equals(ganador, player.estado())
 	}
+	
 /**TESTS DE COVID */
 	test "covid no es contagioso a mas de 100u de distancia"
 	{
 		covidBar.actualizar(covid.obtenerDistancia(player))
 		assert.equals(0, covidBar.valor())
 	}
+	
 	test "covid es contagioso a menos de 100u de distancia"
 	{
 		player.position().x(covid.position().x()+20)
@@ -135,6 +145,7 @@ describe "tests"
 		covidBar.actualizar(covid.obtenerDistancia(player))
 		assert.equals(4, covidBar.valor())
 	}
+	
 	test "el jugador pierde si se contagia covid"
 	{
 		player.position().x(covid.position().x()+20)
@@ -145,6 +156,7 @@ describe "tests"
 		assert.equals(100, covidBar.valor())
 		assert.equals(perdedor, player.estado())
 	}
+	
 /**POWERUPS*/
 	test "un jugador puede agarrar un powerup y este es alguno de los que tiene disponibles"
 	{
@@ -158,6 +170,7 @@ describe "tests"
 		assert.equals(1, player.powerUps().size())
 		assert.that(player.powerUpsPosibles().contains(player.powerUps().first()))
 	}
+	
 	test "no puede agarrar mas de 4 powerups unicos"
 	{
 		const range = new Range(start = 1, end = 10)
@@ -171,6 +184,7 @@ describe "tests"
 		assert.that(powers.all{power => powers.occurrencesOf(power) == 1})
 		
 	}
+	
 	test "el jugador puede usar un powerup"
 	{
 		cajaSorpresa.aparecer()

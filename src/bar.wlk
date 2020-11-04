@@ -10,14 +10,15 @@ object covidBar
 	var property puedeContagiar = true
 	var property multiplicadorMutacion = 0.05
 	var property distanciaDeContagio = 100
+	
 	method mostrar()
 	{
 		game.addVisual(fill)
 		game.addVisual(border)
 	}
+	
 	method actualizar(distancia)
 	{
-		//valor = val
 		if(utils.juegoIniciado())
 		{
 			if(distancia < distanciaDeContagio)
@@ -33,12 +34,10 @@ object covidBar
 						valor = 100	
 						player.finalizarJuego(perdedor)
 					}
-					
 				}
 			}
 			else
-				alerta.finalizarAlerta()
-				
+				alerta.finalizarAlerta()	
 		}
 		//alerta.alertando(false)
 		//conversion para mover el rectangulo rojo dependiendo del valor [0-100]
@@ -49,6 +48,7 @@ object covidBar
 		fill.position().x(x)
 	}
 }
+
 object fill
 {
 	var property position = new MiPosicion( x = utils.getPixel(-194), y = game.height()-utils.getPixel(34))

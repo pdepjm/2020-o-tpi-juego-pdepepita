@@ -2,7 +2,8 @@ import miposicion.*
 import wollok.game.*
 import utils.*
 
-object alerta {
+object alerta 
+{
 	var property position = new MiPosicion(x = 0, y = utils.getPixel(-80))
 	var property image
 	
@@ -10,10 +11,11 @@ object alerta {
 	
 	var property aumentando = false
 	var property disminuyendo = false
+	
 	const valorMaximo = 30
 	const valorMinimo = 0
 	
-	method iniciarAlerta()
+	method iniciarAlerta() 
 	{
 		if(!alertando)
 		{
@@ -21,45 +23,44 @@ object alerta {
 			aumentando = true
 		}
 	}
+	
 	method finalizarAlerta()
 	{
 		alertando = false
 	}
+	
 	method actualizar()
 	{
-		//if(utils.juegoIniciado())
-		//{
-			if(alertando){
-				if(aumentando)
-					opacidadAlerta.aumentar(valorMaximo)
-				else
-					opacidadAlerta.disminuir(valorMinimo)
-				
-				image = opacidadAlerta.img()
-	
-			}
+		if(alertando)
+		{
+			if(aumentando)
+				opacidadAlerta.aumentar(valorMaximo)
 			else
-				image = "alerta0.png"
-				
-		//}
+				opacidadAlerta.disminuir(valorMinimo)
+			image = opacidadAlerta.img()
+		}
+		else
+			image = "alerta0.png"
 	}
-	
-	
 }
-object opacidadAlerta {
+
+object opacidadAlerta 
+{
 	var opacidad = 0
 	
 	method img() = "alerta" + opacidad.toString() + ".png"
 	
-	method aumentar(maximo) { 
+	method aumentar(maximo) 
+	{ 
 		if (opacidad < maximo)
 			opacidad+=10
-		else
+		else 
 		{
 			alerta.aumentando(false)
 			alerta.disminuyendo(true)
 		}
 	}
+	
 	method disminuir(minimo)
 	{
 		if(opacidad > minimo)
@@ -69,6 +70,5 @@ object opacidadAlerta {
 			alerta.aumentando(true)
 			alerta.disminuyendo(false)
 		}
-			
 	}
 }

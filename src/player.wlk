@@ -15,6 +15,7 @@ object player inherits Movil{
 	var property displayTimer 
 	var property timer = true
 	var frame = 1
+	
 	override method init()
 	{
 		image = "amiguito_arriba1.png"
@@ -32,6 +33,7 @@ object player inherits Movil{
 		displayTimer.mostrarNum(30) //Arrancar timer en 30s
 	
 	}
+	
 	override method actualizarImagen()
 	{
 		if(frame < 4)
@@ -51,7 +53,8 @@ object player inherits Movil{
 			var val = displayTimer.valor()
 			if(timer)
 			{
-				if(val > 0){
+				if(val > 0)
+				{
 					val -=1
 					displayTimer.mostrarNum(val)
 				}
@@ -61,6 +64,7 @@ object player inherits Movil{
 		
 		}
 	}
+	
 	method finalizarJuego(est)
 	{
 		estado = est

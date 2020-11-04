@@ -4,9 +4,8 @@ import miposicion.*
 import movil.*
 import powerup.*
 
-object covid inherits Movil{
-
-	
+object covid inherits Movil
+{
 	override method init()
 	{
 		image = "covid.png"
@@ -23,10 +22,8 @@ object covid inherits Movil{
 	
 	override method actualizarImagen()
 	{
-		//self.image("covid_" + self.direccion().toString() + ".png")
+		
 		self.image("covid0.png")
 	}
-	
-	
 	
 }

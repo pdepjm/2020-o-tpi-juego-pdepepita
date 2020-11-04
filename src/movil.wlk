@@ -4,7 +4,8 @@ import barrera.*
 import player.*
 import covid.*
 
-class Movil{
+class Movil
+{
 	var property position 
 	var property image
 	var property direccion 
@@ -23,8 +24,10 @@ class Movil{
 	method init()
 	
 	method actualizarImagen()
+	
 	//direccion es obj arriba|abajo|izquierda|derecha
-	method mover(){ 
+	method mover()
+	{ 
 		direccion.mover(self)
 	}
 	
@@ -35,6 +38,7 @@ class Movil{
 		else 
 			return -1
 	}
+	
 	method verificarZonaDeBarreras()
 	{ 
 		const previo = enZonaDeBarreras
@@ -72,6 +76,7 @@ class Movil{
 		if(self.verificarDireccion(dir))
 			direccion = dir
 	}
+	
 	method agregarEn(powerUp, sector)
 	{
 		var x = posicionPowerUpX.get(sector)
@@ -81,13 +86,15 @@ class Movil{
 		game.addVisual(powerUp)
 //		desplazamiento+=utils.getPixel(40);
 	}
+	
 	method quitarPower(powerUp)
 	{
 		if(game.hasVisual(powerUp)) game.removeVisual(powerUp)
 	}
-	method actualizarBarraSuperior(){
+	
+	method actualizarBarraSuperior()
+	{
 		//desplazamiento = posicionPowerUpX;
-		
 		if(powerUps.size() > 0)
 			powerUps.forEach{ powerUp => self.quitarPower(powerUp)}
 		var sector = 0
@@ -96,6 +103,7 @@ class Movil{
 	} //implementar imagenes en barrera superior
 	
 	method noTiene(powerUp)	= not powerUps.contains(powerUp)
+	
 	method agregarPowerUp()
 	{
 		if(powerUps.size() < 4)
@@ -107,8 +115,6 @@ class Movil{
 				powerUps.add(powerUp)
 				console.println("agarro "+ powerUp.toString())
 				self.actualizarBarraSuperior()
-//				utils.mostrarMensaje("powerup "+powerUp.toString())
-				//agregar a display
 			}
 		}
 	}
@@ -127,6 +133,7 @@ class Movil{
 		}
 	}
 }
+
 class Direccion
 {
 	method mover(movil)
@@ -138,11 +145,13 @@ class Direccion
 		else
 			self.frenarEnElBorde(movil)
 	}
+	
 	method noTocoElBorde(movil)
 	method cambiarPosicion(movil)
 	method frenarEnElBorde(movil)
 	method rebotar(movil)
 }
+
 object derecha inherits Direccion
 {
 	override method noTocoElBorde(movil) = 
@@ -152,11 +161,13 @@ object derecha inherits Direccion
 	{
 		movil.position().right(movil.velocidad())
 	}
+	
 	override method frenarEnElBorde(movil)
 	{
 		movil.position().x(game.width() - movil.anchoImg())
 		movil.direccion(quieto)
 	}
+	
 	override method rebotar(movil)
 	{
 		movil.position().left(movil.velocidad()* movil.multiplicadorRebote())
@@ -168,15 +179,18 @@ object izquierda inherits Direccion
 {
 	override method noTocoElBorde(movil) = 
 		movil.position().x() >= movil.velocidad()
+	
 	override method cambiarPosicion(movil)
 	{
 		movil.position().left(movil.velocidad())
 	}
+	
 	override method frenarEnElBorde(movil)
 	{
 		movil.position().x(0)
 		movil.direccion(quieto)
 	}
+	
 	override method rebotar(movil)
 	{
 		movil.position().right(movil.velocidad()*movil.multiplicadorRebote())
@@ -188,15 +202,18 @@ object arriba inherits Direccion
 {
 	override method noTocoElBorde(movil) = 
 		movil.position().y() <= utils.alturaJuego() - movil.velocidad() - movil.alturaImg()
+	
 	override method cambiarPosicion(movil)
 	{
 		movil.position().up(movil.velocidad())		
 	}
+	
 	override method frenarEnElBorde(movil)
 	{
 		movil.position().y(utils.alturaJuego() - movil.alturaImg())
 		movil.direccion(quieto)
 	}
+	
 	override method rebotar(movil)
 	{
 		movil.position().down(movil.velocidad()*movil.multiplicadorRebote())
@@ -208,15 +225,18 @@ object abajo inherits Direccion
 {
 	override method noTocoElBorde(movil) = 
 		movil.position().y() >= movil.velocidad()
+	
 	override method cambiarPosicion(movil)
 	{
 		movil.position().down(movil.velocidad())
 	}
+	
 	override method frenarEnElBorde(movil)
 	{
 		movil.position().y(0)
 		movil.direccion(quieto)
 	}
+	
 	override method rebotar(movil)
 	{
 		movil.position().up(movil.velocidad()*movil.multiplicadorRebote())
@@ -230,6 +250,7 @@ object quieto inherits Direccion
 	override method noTocoElBorde(movil) = true
 	override method cambiarPosicion(movil) {}
 	override method frenarEnElBorde(movil) {}
+	
 	override method rebotar(movil)
 	{
 		movil.orientacion().rebotar(movil)
@@ -240,14 +261,22 @@ object gestorJugadores
 {
 	var property jugadores = []
 	
-	method agregarJugador(jugador){ 
+	method agregarJugador(jugador)
+	{ 
 		jugadores.add(jugador)
 		game.addVisual(jugador)
 	}
-	//if(utils.juegoIniciado()) 
 	
-	method moverJugadores(){ jugadores.forEach{jugador=> jugador.mover()} }
-	method colisionesJugadores() {jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}}
+	method moverJugadores()
+	{ 
+		jugadores.forEach{jugador=> jugador.mover()}
+	}
+	
+	method colisionesJugadores() 
+	{
+		jugadores.forEach{jugador => jugador.verificarZonaDeBarreras()}
+	}
+	
 	/* esto se llama cuando ocurre un cambio de orientacion de barreras */
 	method reubicar(orientacion)
 	{
@@ -259,6 +288,7 @@ object gestorJugadores
 			}
 		}
 	}
+	
 	/*powerup separar */
 	method separarJugadores()
 	{
@@ -270,6 +300,7 @@ object gestorJugadores
 		
 		jugadores.forEach{jugador => jugador.direccion(quieto)}
 	}
+	
 	/*powerup acercar */
 	method acercarJugadores()
 	{

@@ -4,12 +4,14 @@ import miposicion.*
 import utils.*
 import player.*
 
-class Caracter{
+class Caracter
+{
 	var property position
 	var property image
 }
 
-class Display {
+class Display 
+{
 	var property position
 	//utilizada para los caracteres
 	var property posicionRelativa = game.at(0,0)
@@ -33,6 +35,7 @@ class Display {
 		self.mostrarString(numero.toString())
 	}	
 	
+	/* ---------------------------revisarlo ---------------------------------*/
 	method mostrarString(string)
 	{
 		self.init()
@@ -51,6 +54,7 @@ class Display {
 		else
 			return caracter + ".png"
 	}
+	
 	method correccionPosicion(caracter)
 	{
 		//si es uno de estos caracteres, corrijo la posicion
@@ -58,6 +62,7 @@ class Display {
 			caracter == 'q' or caracter == 'y' )
 			posicionRelativa.down(utils.getPixel(6))
 	}
+	
 	method correccionSeparacion(caracter)
 	{		
 		if(caracter == 'm' or caracter == 'w')
@@ -65,6 +70,7 @@ class Display {
 		else if(caracter == 'i' or caracter == 'l')
 			 separacion -= utils.getPixel(8)
 	}
+	
 	method restaurarParametros(yPrevio, separacionPrevia)
 	{
 		posicionRelativa.y(yPrevio)
@@ -92,11 +98,10 @@ class Display {
 		//Creo el objeto visible caracter
 		const nuevoCaracter = new Caracter(position = nuevaPos, image = imagen)
 		caracteres.add(nuevoCaracter)
-		
 	}
 
 }
-
+/* --------------------------------------------------------------------------- */
 object background 
 {
 	var property image = "controles.png"

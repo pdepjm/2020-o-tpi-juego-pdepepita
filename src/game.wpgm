@@ -10,18 +10,17 @@ import alerta.*
 import movil.*
 import powerup.*
 
-program game {
-
+program game 
+{
 	game.title("PdePepita")
 	game.boardGround("transparente.png")
-	//game.boardGround("controles.png")
-	/*
-	cellSize es el tamaño de cada posicion en la pantalla, cuanto mas chico mas fluido va a ser,
-	pero como es bastante ineficiente consume mucho mas recursos con grillas grandes
-	*/
+	
+	/* 	cellSize es el tamaño de cada posicion en la pantalla, cuanto mas chico mas fluido va a ser,
+	pero como es bastante ineficiente consume mucho mas recursos con grillas grandes 	*/
 	background.image("controles.png")
 	game.addVisual(background)
 	game.cellSize(utils.cellSize())
+	
 	//tamaño en celdas
 	game.width(utils.getPixel(580)) 
 	game.height(utils.getPixel(660))
@@ -32,6 +31,4 @@ program game {
 	keyboard.enter().onPressDo {utils.iniciarJuego()}
 	
 	game.start()
-	
-	
 }
