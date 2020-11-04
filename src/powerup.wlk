@@ -46,7 +46,7 @@ object reduccionTiempo inherits PowerUp
 	
 	override method init() 
 	{
-		self.image("reducirTiempo.png")
+		self.image("reduccionTiempo.png")
 	}
 }
 
@@ -145,7 +145,7 @@ object alcoholEnGel inherits PowerUp
 	
 	override method init() 
 	{
-		self.image("masVida.png")
+		self.image("alcoholEnGel.png")
 	}
 }
 
@@ -158,7 +158,7 @@ object separador inherits PowerUp
 	
 	override method init() 
 	{
-		self.image("separar.png")
+		self.image("separador.png")
 	}
 }
 

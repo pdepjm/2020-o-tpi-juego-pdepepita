@@ -115,6 +115,7 @@ class Movil
 				powerUps.add(powerUp)
 				console.println("agarro "+ powerUp.toString())
 				self.actualizarBarraSuperior()
+				utils.mostrarAvisoPowerUp(powerUp.toString())			// AGREGUE ACA Y EN LA 132
 			}
 		}
 	}
@@ -128,7 +129,7 @@ class Movil
 			powerUps.remove(powerUp)
 			console.println("uso "+ powerUp.toString())
 			self.actualizarBarraSuperior()
-//			utils.mostrarMensaje("activado "+powerUp.toString())
+			utils.mostrarAvisoActivado(powerUp.toString())
 			powerUp.usar(self)			
 		}
 	}

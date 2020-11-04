@@ -8,6 +8,7 @@ import miposicion.*
 import bar.*
 import alerta.*
 import powerup.*
+import cartel.*
 
 object utils 
 {
@@ -120,6 +121,35 @@ object utils
 		display.mostrarString(string)
 		
 		game.schedule(2000, {display.init() })
+	}
+	
+	method mostrarAvisoActivado(unPowerUp)
+	{
+		// deberia ser: cartelPowerUp.image(unPowerUp + "A.png")
+		cartel.image(unPowerUp + "A.png")
+		cartel.position (new MiPosicion(
+		x = game.width() / 2 - utils.getPixel(200), 
+		y = game.height() / 2 - utils.getPixel(60)
+	))
+		game.addVisual(cartel)
+		
+	}
+	
+	method mostrarAvisoPowerUp(unPowerUp)
+	{
+		// deberia ser : cartelPowerUp.image(unPowerUp + "P.png")
+		cartel.image(unPowerUp + "P.png")
+		cartel.position (new MiPosicion(
+		x = game.width() / 2 - utils.getPixel(200), 
+		y = game.height() / 2 - utils.getPixel(60)
+	))
+		/*está escrito asi nomas para probar los valores, pero estos van bien.
+		cartel.position (new MiPosicion(
+		x = game.width() / 2 - utils.getPixel(200), 
+		y = game.height() / 2 - utils.getPixel(60)
+	))*/
+	
+		game.addVisual(cartel)
 	}
 	
 }
