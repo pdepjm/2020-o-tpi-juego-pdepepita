@@ -16,6 +16,9 @@ class PowerUp
 	method usar(jugador) // acá deberíamos agregar un mostrarCartel(powerUp.toString()+ A + png)
 
 	method init()
+	{
+		self.image(self.toString() + ".png")
+	}
 }
 
 object extensionTiempo inherits PowerUp 
@@ -26,11 +29,6 @@ object extensionTiempo inherits PowerUp
 		const actual = display.valor()
 		display.valor(actual + 5)
 		display.mostrarNum(display.valor())
-	}
-	
-	override method init() 
-	{
-		self.image("extensionTiempo.png")
 	}
 }
 
@@ -43,11 +41,6 @@ object reduccionTiempo inherits PowerUp
 		display.valor(actual - 5)
 		display.mostrarNum(display.valor())
 	}
-	
-	override method init() 
-	{
-		self.image("reduccionTiempo.png")
-	}
 }
 
 object acelerarContagio inherits PowerUp 
@@ -56,11 +49,6 @@ object acelerarContagio inherits PowerUp
 	{
 		covidBar.multiplicadorMutacion(0.08)
 		game.schedule(3000, { covidBar.multiplicadorMutacion(0.05)})
-	}
-	
-	override method init() 
-	{
-		self.image("acelerarContagio.png")
 	}
 }
 
@@ -72,11 +60,6 @@ object aumentarRango inherits PowerUp
 		covidBar.distanciaDeContagio(distancia + 30)
 		game.schedule(3000, { covidBar.distanciaDeContagio(distancia)})
 	}
-	
-	override method init() 
-	{
-		self.image("aumentarRango.png")
-	}
 }
 
 object acercar inherits PowerUp 
@@ -84,11 +67,6 @@ object acercar inherits PowerUp
 	override method usar(jugador) 
 	{
 		gestorJugadores.acercarJugadores()
-	}
-	
-	override method init() 
-	{
-		self.image("acercar.png")
 	}
 }
 
@@ -100,11 +78,6 @@ object aumentarVelocidadCovid inherits PowerUp
 		jugador.velocidad(valorPrevio + 2)
 		game.schedule(3000, { jugador.velocidad(valorPrevio)})
 	}
-	
-	override method init() 
-	{
-		self.image("aumentarVelocidadCovid.png")
-	}
 }
 
 object aumentarVelocidadPlayer inherits PowerUp 
@@ -115,20 +88,10 @@ object aumentarVelocidadPlayer inherits PowerUp
 		jugador.velocidad(valorPrevio + 2)
 		game.schedule(3000, { jugador.velocidad(valorPrevio)})
 	}
-	
-	override method init() 
-	{
-		self.image("aumentarVelocidadPlayer.png")
-	}
 }
 
 object barbijo inherits PowerUp 
 {
-	override method init() 
-	{
-		self.image("barbijo.png")
-	}
-	
 	override method usar(jugador) 
 	{
 		covidBar.puedeContagiar(false)
@@ -142,11 +105,6 @@ object alcoholEnGel inherits PowerUp
 	{
 		covidBar.valor(0)
 	}
-	
-	override method init() 
-	{
-		self.image("alcoholEnGel.png")
-	}
 }
 
 object separador inherits PowerUp 
@@ -154,11 +112,6 @@ object separador inherits PowerUp
 	override method usar(jugador) 
 	{
 		gestorJugadores.separarJugadores()
-	}
-	
-	override method init() 
-	{
-		self.image("separador.png")
 	}
 }
 
@@ -197,7 +150,7 @@ object cajaSorpresa
 			const jugador = gestorJugadores.jugadores().findOrElse({ jugador => self.colisiono(jugador) }, { encontrado = false })
 			if (encontrado) 
 			{
-				jugador.agregarPowerUp() // mostrar Cartel en pantalla
+				jugador.agregarPowerUp() 
 				self.eliminar()
 			}
 		}

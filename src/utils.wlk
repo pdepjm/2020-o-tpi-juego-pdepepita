@@ -9,11 +9,13 @@ import bar.*
 import alerta.*
 import powerup.*
 import cartel.*
+import cartel.*
 
 object utils 
 {
 	const cellSize = 2	
 	var property juegoIniciado = false
+	
 	method cellSize() = cellSize
 	
 	method random(a,b)
@@ -125,31 +127,17 @@ object utils
 	
 	method mostrarAvisoActivado(unPowerUp)
 	{
-		// deberia ser: cartelPowerUp.image(unPowerUp + "A.png")
-		cartel.image(unPowerUp + "A.png")
-		cartel.position (new MiPosicion(
-		x = game.width() / 2 - utils.getPixel(200), 
-		y = game.height() / 2 - utils.getPixel(60)
-	))
-		game.addVisual(cartel)
-		
+		cartelActivado.image(unPowerUp + "A.png")
+		//cartelActivado.image(unPowerUp + "A.png")
+		game.addVisual(cartelActivado)
+		game.schedule(2000, { if(game.hasVisual(cartelActivado)) cartelActivado.eliminar() })
 	}
 	
 	method mostrarAvisoPowerUp(unPowerUp)
 	{
-		// deberia ser : cartelPowerUp.image(unPowerUp + "P.png")
-		cartel.image(unPowerUp + "P.png")
-		cartel.position (new MiPosicion(
-		x = game.width() / 2 - utils.getPixel(200), 
-		y = game.height() / 2 - utils.getPixel(60)
-	))
-		/*está escrito asi nomas para probar los valores, pero estos van bien.
-		cartel.position (new MiPosicion(
-		x = game.width() / 2 - utils.getPixel(200), 
-		y = game.height() / 2 - utils.getPixel(60)
-	))*/
-	
-		game.addVisual(cartel)
+		cartelColision.image(unPowerUp + "P.png")
+		//cartelActivado.image(unPowerUp + "A.png")
+		game.addVisual(cartelColision)
+		game.schedule(2000, { if(game.hasVisual(cartelColision)) cartelColision.eliminar() })
 	}
-	
 }

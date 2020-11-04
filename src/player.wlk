@@ -31,7 +31,6 @@ object player inherits Movil{
 		
 		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(90), y = game.height() - utils.getPixel(30)))
 		displayTimer.mostrarNum(30) //Arrancar timer en 30s
-	
 	}
 	
 	override method actualizarImagen()
@@ -61,7 +60,6 @@ object player inherits Movil{
 				else
 					self.finalizarJuego(ganador)
 			}
-		
 		}
 	}
 	
@@ -80,8 +78,8 @@ object ganador
 {
 	method mostrarCartel()
 	{
-		cartel.image("victoria.png")
-		game.addVisual(cartel)
+		cartelFinal.image("victoria.png")
+		game.addVisual(cartelFinal)
 	}
 }
 
@@ -89,8 +87,8 @@ object perdedor
 {
 	method mostrarCartel()
 	{
-		cartel.image("derrota.png")
-		game.addVisual(cartel)
+		cartelFinal.image("derrota.png")
+		game.addVisual(cartelFinal)
 	}
 }
 
