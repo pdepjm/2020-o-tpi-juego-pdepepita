@@ -30,7 +30,7 @@ object player inherits Movil{
 		posicionPowerUpX = [utils.getPixel(380), utils.getPixel(420), utils.getPixel(460), utils.getPixel(500)]
 		
 		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(90), y = game.height() - utils.getPixel(30)))
-		displayTimer.mostrarNum(30) //Arrancar timer en 30s
+		displayTimer.mostrarNum(50) //Arrancar timer en 30s
 	}
 	
 	override method actualizarImagen()
@@ -66,11 +66,13 @@ object player inherits Movil{
 	method finalizarJuego(est)
 	{
 		estado = est
+		utils.removerOnTicks()
 		game.removeVisual(self)
 		game.removeVisual(covid)
+		
 		barrera.eliminarComponentes()
 		estado.mostrarCartel()
-		utils.removerOnTicks()
+		
 	}
 }
 

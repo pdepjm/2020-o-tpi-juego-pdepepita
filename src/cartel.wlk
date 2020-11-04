@@ -25,6 +25,13 @@ class CartelPowerUp
 		if(game.hasVisual(self))
 			game.removeVisual(self)
 	}
+	method mostrar()
+	{
+		if(game.hasVisual(self))
+			self.eliminar()
+		game.addVisual(self)
+		game.schedule(2000, { if(game.hasVisual(self)) self.eliminar() })
+	}
 }
 
 object cartelColision inherits CartelPowerUp

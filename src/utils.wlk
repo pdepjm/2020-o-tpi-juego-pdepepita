@@ -129,15 +129,16 @@ object utils
 	{
 		cartelActivado.image(unPowerUp + "A.png")
 		//cartelActivado.image(unPowerUp + "A.png")
-		game.addVisual(cartelActivado)
-		game.schedule(2000, { if(game.hasVisual(cartelActivado)) cartelActivado.eliminar() })
+		cartelActivado.mostrar()//game.addVisual(cartelActivado)
+		//game.schedule(2000, { if(game.hasVisual(cartelActivado)) cartelActivado.eliminar() })
 	}
 	
 	method mostrarAvisoPowerUp(unPowerUp)
 	{
 		cartelColision.image(unPowerUp + "P.png")
 		//cartelActivado.image(unPowerUp + "A.png")
-		game.addVisual(cartelColision)
-		game.schedule(2000, { if(game.hasVisual(cartelColision)) cartelColision.eliminar() })
+		cartelColision.mostrar()
+		//game.addVisual(cartelColision)
+		//game.schedule(2000, { if(game.hasVisual(cartelColision)) cartelColision.eliminar() })
 	}
 }
