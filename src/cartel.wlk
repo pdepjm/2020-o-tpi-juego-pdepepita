@@ -34,13 +34,3 @@ class CartelPowerUp
 	}
 }
 
-object cartelColision inherits CartelPowerUp
-{
-	
-}
-
-object cartelActivado inherits CartelPowerUp
-{
-	
-}
-

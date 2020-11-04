@@ -66,7 +66,7 @@ object utils
 		game.onTick(50,		"alerta", 		{ alerta.actualizar() })
 		game.onTick(8000,	"cajaSorpresa",	{ cajaSorpresa.aparecer() })
 		game.onTick(100,	"colisionCaja", { cajaSorpresa.verificarColisiones() })
-		game.onTick(100, 	"zonaBarreras", { gestorJugadores.colisionesJugadores() })
+		game.onTick(60, 	"zonaBarreras", { gestorJugadores.colisionesJugadores() })
 	}
 	
 	method removerOnTicks()
@@ -111,34 +111,16 @@ object utils
 		range.forEach { index => charList.add(string.charAt(index).toLowerCase()) }
 		return charList
 	}	
-	/* Muestra un string en la pantalla  */
-	
-	method mostrarMensaje(string)
-	{
-		const display = new Display(position = 
-			new MiPosicion(	x = self.getPixel(100), 
-							y = game.height()/2 ))
-		
-		display.separacion(self.getPixel(18))
-		display.mostrarString(string)
-		
-		game.schedule(2000, {display.init() })
-	}
 	
 	method mostrarAvisoActivado(unPowerUp)
 	{
-		cartelActivado.image(unPowerUp + "A.png")
-		//cartelActivado.image(unPowerUp + "A.png")
-		cartelActivado.mostrar()//game.addVisual(cartelActivado)
-		//game.schedule(2000, { if(game.hasVisual(cartelActivado)) cartelActivado.eliminar() })
+		const cartelActivado = new CartelPowerUp(image = unPowerUp + "A.png")
+		cartelActivado.mostrar()
 	}
 	
 	method mostrarAvisoPowerUp(unPowerUp)
 	{
-		cartelColision.image(unPowerUp + "P.png")
-		//cartelActivado.image(unPowerUp + "A.png")
+		const cartelColision = new CartelPowerUp(image = unPowerUp + "P.png")
 		cartelColision.mostrar()
-		//game.addVisual(cartelColision)
-		//game.schedule(2000, { if(game.hasVisual(cartelColision)) cartelColision.eliminar() })
 	}
 }

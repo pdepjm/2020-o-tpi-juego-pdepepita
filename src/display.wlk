@@ -29,7 +29,6 @@ class Display
 		caracteres.forEach{objCaracter => game.removeVisual(objCaracter)}
 		caracteres.clear()
 		// la posicion relativa de cada caracter a partir de la posicion del display
-		posicionRelativa = new MiPosicion(x = position.x(), y = position.y())
 	}
 	
 	method mostrarNum(numero)
@@ -44,60 +43,22 @@ class Display
 		self.init()
 		//caracteres simples
 		const lista_caracteres = utils.stringToCharList(string)
-		//lista_caracteres.forEach{caracter => self.agregar(caracter, sector)}
+		var sector = 0
+		lista_caracteres.forEach{caracter => self.agregar(caracter, sector) sector++}
 		//clase caracter	
 		caracteres.forEach{objCaracter => game.addVisual(objCaracter )}
 	}
 	
 	method obtenerImg(caracter) = caracter + ".png"
 
-	
-//	method correccionPosicion(caracter)
-//	{
-//		//si es uno de estos caracteres, corrijo la posicion
-//		if(caracter == 'g' or caracter == 'j' or caracter == 'p' or 
-//			caracter == 'q' or caracter == 'y' )
-//			posicionRelativa.down(utils.getPixel(6))
-//	}
-	
-//	method correccionSeparacion(caracter)
-//	{		
-//		if(caracter == 'm' or caracter == 'w')
-//			separacion += utils.getPixel(6)
-//		else if(caracter == 'i' or caracter == 'l')
-//			 separacion -= utils.getPixel(8)
-//	}
-	
-//	method restaurarParametros(yPrevio, separacionPrevia)
-//	{
-//		posicionRelativa.y(yPrevio)
-//		separacion = separacionPrevia
-//	}
+
 	
 	method agregar(caracter,sector)
 	{
 		const imagen = self.obtenerImg(caracter)
 		
-		//const yPrevio = posicionRelativa.y()
-		//const separacionPrevia = separacion
-		
-		//self.correccionPosicion(caracter)
-		//self.correccionSeparacion(caracter)
-		
-		const nuevaPos = new MiPosicion(x = posicionRelativa.x(), y = posicionRelativa.y())
-		
-		var x = posicionesX.get(sector)
-		
-		
-		
-		
-//		desplazamiento+=utils.getPixel(40);
-		//Desplazo la pos para que no se quede un caracter arriba de otro
-		//posicionRelativa.right(separacion)
-		
-		//restauro a caracteres en posicion y separacion estandar
-//		self.restaurarParametros(yPrevio, separacionPrevia)	
-		
+		const x = posicionesX.get(sector)
+		const nuevaPos = new MiPosicion(x = x, y = posicionY)
 		//Creo el objeto visible caracter
 		const nuevoCaracter = new Caracter(position = nuevaPos, image = imagen)
 		caracteres.add(nuevoCaracter)

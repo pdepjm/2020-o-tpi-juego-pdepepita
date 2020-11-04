@@ -150,7 +150,13 @@ class Direccion
 	method noTocoElBorde(movil)
 	method cambiarPosicion(movil)
 	method frenarEnElBorde(movil)
+	{
+		movil.direccion(quieto)
+	}
 	method rebotar(movil)
+	{
+		movil.direccion(quieto)
+	}
 }
 
 object derecha inherits Direccion
@@ -165,14 +171,14 @@ object derecha inherits Direccion
 	
 	override method frenarEnElBorde(movil)
 	{
+		super(movil)
 		movil.position().x(game.width() - movil.anchoImg())
-		movil.direccion(quieto)
 	}
 	
 	override method rebotar(movil)
 	{
+		super(movil)
 		movil.position().left(movil.velocidad()* movil.multiplicadorRebote())
-		movil.direccion(quieto)	
 	}
 }
 
@@ -188,14 +194,14 @@ object izquierda inherits Direccion
 	
 	override method frenarEnElBorde(movil)
 	{
+		super(movil)
 		movil.position().x(0)
-		movil.direccion(quieto)
 	}
 	
 	override method rebotar(movil)
 	{
+		super(movil)
 		movil.position().right(movil.velocidad()*movil.multiplicadorRebote())
-		movil.direccion(quieto)	
 	}
 }
 
@@ -211,14 +217,14 @@ object arriba inherits Direccion
 	
 	override method frenarEnElBorde(movil)
 	{
+		super(movil)
 		movil.position().y(utils.alturaJuego() - movil.alturaImg())
-		movil.direccion(quieto)
 	}
 	
 	override method rebotar(movil)
 	{
+		super(movil)
 		movil.position().down(movil.velocidad()*movil.multiplicadorRebote())
-		movil.direccion(quieto)	
 	}
 }
 
@@ -234,14 +240,14 @@ object abajo inherits Direccion
 	
 	override method frenarEnElBorde(movil)
 	{
+		super(movil)
 		movil.position().y(0)
-		movil.direccion(quieto)
 	}
 	
 	override method rebotar(movil)
 	{
+		super(movil)
 		movil.position().up(movil.velocidad()*movil.multiplicadorRebote())
-		movil.direccion(quieto)
 	}
 }
 

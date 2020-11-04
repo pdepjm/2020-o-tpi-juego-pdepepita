@@ -28,7 +28,7 @@ program game
 	utils.onTicks()
 	utils.configTeclas()
 	
-	keyboard.enter().onPressDo {utils.iniciarJuego()}
+	keyboard.enter().onPressDo {if (not utils.juegoIniciado()) utils.iniciarJuego()}
 	
 	game.start()
 }

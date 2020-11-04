@@ -29,17 +29,14 @@ object player inherits Movil{
 		
 		posicionPowerUpX = [utils.getPixel(380), utils.getPixel(420), utils.getPixel(460), utils.getPixel(500)]
 		
-		displayTimer = new Display (position = new MiPosicion(x = game.width() - utils.getPixel(90), y = game.height() - utils.getPixel(30)))
-		displayTimer.mostrarNum(50) //Arrancar timer en 30s
+		displayTimer = new Display()
+		displayTimer.mostrarNum(50) //Arrancar timer en 50s
 	}
 	
 	override method actualizarImagen()
 	{
-		if(frame < 4)
-			frame++
-		else
-			frame = 1
-		
+		frame%=4
+		frame++
 		self.image("amiguito_" + direccion.toString() + frame.toString()+ ".png")
 	}
 
