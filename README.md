@@ -23,18 +23,18 @@ Durante el juego, irán apareciendo cajas sorpresa, que contienen power ups para
 ## Power Ups disponibles:
 
 ### Jugador 1 Covid:
-* Extension de tiempo
+* Extensión de tiempo
 * Aumentar velocidad
-* Acelerar contagio (a misma distancia, contagia mas)
-* Aumentar rango (aumenta la distancia maxima de contagio)
-* Acercar (Teletransporta el covid al amiguito)
+* Acelerar contagio (a misma distancia, contagia más)
+* Aumentar rango (aumenta la distancia máxima de contagio)
+* Acercar (teletransporta a covid hacia amiguito)
 
 ### Jugador 2 Amiguito: 
-* Reduccion de tiempo
+* Reducción de tiempo
 * Aumentar velocidad
-* Escudo anti contagio (evita aumento de contagio)
-* Alcohol en gel (reduce el contagio al minimo)
-* Separador (separa los jugadores a las esquinas)
+* Escudo anti-contagio (evita aumento de contagio)
+* Alcohol en gel (reduce el contagio al mínimo)
+* Separador (separa los jugadores enviánndolos a esquinas opuestas)
 
 ## Autores ✒️
 * Derghazarian, Esteban
@@ -43,4 +43,3 @@ Durante el juego, irán apareciendo cajas sorpresa, que contienen power ups para
 * Osuna, Leandro
 
 
-![no encontrado](diagrama_estatico_PDEPEPITA.png?raw=true "Title")
