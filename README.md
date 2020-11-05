@@ -13,7 +13,7 @@ Durante el juego, irán apareciendo cajas sorpresa, que contienen power ups para
 * Se frena con la tecla L
 
 ### Jugador 2 Amiguito: 
-* Se mueve con las teclas "a w s d" 
+* Se mueve con las teclas "W A S D" 
 * Utiliza los power up con la tecla E
 * Se frena con la tecla C
 
@@ -23,18 +23,18 @@ Durante el juego, irán apareciendo cajas sorpresa, que contienen power ups para
 ## Power Ups disponibles:
 
 ### Jugador 1 Covid:
-*
-*
-*
-*
-*
+* Extension de tiempo
+* Aumentar velocidad
+* Acelerar contagio (a misma distancia, contagia mas)
+* Aumentar rango (aumenta la distancia maxima de contagio)
+* Acercar (Teletransporta el covid al amiguito)
 
 ### Jugador 2 Amiguito: 
-*
-*
-*
-*
-*
+* Reduccion de tiempo
+* Aumentar velocidad
+* Escudo anti contagio (evita aumento de contagio)
+* Alcohol en gel (reduce el contagio al minimo)
+* Separador (separa los jugadores a las esquinas)
 
 ## Autores ✒️
 * Derghazarian, Esteban
